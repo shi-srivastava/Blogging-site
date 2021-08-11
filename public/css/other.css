@@ -1,0 +1,15 @@
+.icons-middle-align{
+    vertical-align: middle;
+    font-size:16px !important;
+}
+
+.pagination-home-page a{
+    background-color:#ddd;
+    text-decoration: none;
+    padding: 8px 16px;
+}
+.pagination-page-active{
+    background-color: blue !important;
+    color: white !important;
+    padding: 8px 16px;
+}

@@ -1,0 +1,4 @@
+.blog-image:hover > .blog-image-right
+    {    
+        transform: scale(1.5);
+    }
