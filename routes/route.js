@@ -15,6 +15,7 @@ route.get('/profile',(req,res,next) =>{
     const nav_send_profile=nav_send;
     nav_send_profile.page_title="Profile";
     console.log("Route to home")
+
     res.render('profile.ejs',nav_send);
 })
 route.get('/none',(req,res,next) =>{
@@ -22,6 +23,12 @@ route.get('/none',(req,res,next) =>{
     const nav_send_home=nav_send;
     nav_send_home.page_title="None";
     res.render('none.ejs',nav_send);
+})
+route.get('/BlogDisplay',(req,res,next) =>{
+    console.log("Route to none")
+    const nav_send_home=nav_send;
+    nav_send_home.page_title="BlogDisplay";
+    res.render('BlogDisplay.ejs',nav_send);
 })
 route.get('/messages',(req,res,next) =>{
     console.log("Route to none")
@@ -50,6 +57,14 @@ route.get('/trending',(req,res,next) =>{
 route.get('/your-projects',(req,res,next) =>{
     console.log("Route to none")
     res.render('trending.ejs',nav_send);
+})
+route.get('/demo-blog',(req,res,next) =>{
+    console.log("Route to none")
+    res.render('BlogDisplay.ejs',nav_send);
+})
+route.get('/your-pokis-created',(req,res,next) =>{
+    console.log("Route to none")
+    res.render('your-pokis-created.ejs',nav_send);
 })
 
 
