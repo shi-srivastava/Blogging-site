@@ -57,6 +57,14 @@ route.get('/your-projects',(req,res,next) =>{
     console.log("Route to none")
     res.render('trending.ejs',nav_send);
 })
+route.get('/demo-blog',(req,res,next) =>{
+    console.log("Route to none")
+    res.render('BlogDisplay.ejs',nav_send);
+})
+route.get('/your-pokis-created',(req,res,next) =>{
+    console.log("Route to none")
+    res.render('your-pokis-created.ejs',nav_send);
+})
 
 
 module.exports = route;

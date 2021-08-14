@@ -1,86 +1,199 @@
 <%- include('include/start.ejs')%>
-<%- include('include/nav1.ejs')%>
+    <%- include('include/nav1.ejs')%>
 
-<!-- <body style="display:flex; justify-content: center;"> -->
-   
-    <main style="max-width:60%;margin:auto;margin-top:3%" >
-        <div>
-        <h1 id="blog-title">
-            Staying Competitive with Linear Models 
-        </h1>
-        <h2 id="blog-subtitle">
-            With the right features, a linear model can become a beast
-        </h2>
-        <span class="material-icons fr">
-            share
-            </span>
-        <span class="material-icons fr">
-            bookmark_border
-            </span>
-        <section id="blog-meta">
-            <div class="image-border">
-                <svg style="vertical-align:middle; word-wrap:break-word;" width="36" height="36" viewBox="0 0 36 36"><path fill-rule="evenodd" clip-rule="evenodd" d="M18 1.87c-6.63 0-12.4 4.14-15.21 10.21L2 11.71C4.94 5.37 11 1 18 1s13.06 4.37 16 10.71l-.79.37C30.4 6.01 24.63 1.88 18 1.88zM2.79 23.92c2.81 6.07 8.58 10.2 15.21 10.2 6.63 0 12.4-4.13 15.21-10.2l.79.37C31.06 30.63 25 35 18 35S4.94 30.63 2 24.29l.79-.37z" fill="rgb(26, 137, 23);"></path></svg>
-            </div>
-            <div id="blog-meta">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/8/8b/Nicolas_Boileau.jpg" id="author-img" alt="author">
-            <div class="tooltip" id="author-name" style="color:rgb(10,10,10);font-weight:700;">
-                Thomas Cat
-                <div class="tooltiptext" >
-                    <div style="display:inline;position:absolute; justify-content: center;align-items: center;">
-                        <svg style="vertical-align:middle; word-wrap:break-word;" width="36" height="36" viewBox="0 0 36 36"><path fill-rule="evenodd" clip-rule="evenodd" d="M18 1.87c-6.63 0-12.4 4.14-15.21 10.21L2 11.71C4.94 5.37 11 1 18 1s13.06 4.37 16 10.71l-.79.37C30.4 6.01 24.63 1.88 18 1.88zM2.79 23.92c2.81 6.07 8.58 10.2 15.21 10.2 6.63 0 12.4-4.13 15.21-10.2l.79.37C31.06 30.63 25 35 18 35S4.94 30.63 2 24.29l.79-.37z" fill="rgb(26, 137, 23);"></path></svg>
-                    </div>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/8b/Nicolas_Boileau.jpg" style="display:inline;transform: translateX(15%) translateY(-1%);vertical-align:middle;border-radius:50%;height:28px;width:28px;aspect-ratio: auto 28 / 28;" alt="author">
-                    <div style="display:inline;vertical-align:center; padding-left:10px;color:rgb(90, 90, 90); font-weight:600;font-size:18px;line-height: 30px;">
-                        Thomas Cat
-                    </div>
-                    <p style="line-height:16px;font-weight:300;color:rgb(111,111,111);">Expert Mouse Chaser. Currently in pursuit of Jerry.</p>
-                    <hr style="margin:0;padding:0;">
-                    <p style="display:inline;padding:0;margin:0;font-weight:300;color:rgb(150,150,150);">12 Followers</p><button style="display:inline;float:right;background-color:green;color:white;margin-top:5px;">Follow</button>
+        <!-- <body style="display:flex; justify-content: center;"> -->
+
+        <main style="max-width:60%;margin:auto;margin-top:3%">
+            <div>
+                <h1 id="blog-title" style="text-align:center;">
+                    Staying Competitive with Linear Models
+                </h1>
+                <h2 id="blog-subtitle" style="text-align:center;">
+                    With the right features, a linear model can become a beast
+                </h2>
+                <div style="margin-top:3%;margin-bottom:1%">
+                    
+                    <span class="fr" style="cursor:default"> &nbsp;&nbsp;&nbsp;
+                        <span class="material-icons fr" style="cursor:pointer;">
+                        share 
+                    </span>
+                </span>
+                    
+                    <% if(1){ %>
+                    <span class="material-icons fr" style="cursor:pointer;">
+                        bookmark_border
+                    </span>
+                    <% }else{ %>
+                    <span class="material-icons fr" style="color:yellow;cursor:pointer;">
+                        bookmark
+                    </span>
+                    <% } %>
+                    <section id="blog-meta">
+                        <div class="image-border">
+                            <svg style="vertical-align:middle; word-wrap:break-word;" width="36" height="36"
+                                viewBox="0 0 36 36">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M18 1.87c-6.63 0-12.4 4.14-15.21 10.21L2 11.71C4.94 5.37 11 1 18 1s13.06 4.37 16 10.71l-.79.37C30.4 6.01 24.63 1.88 18 1.88zM2.79 23.92c2.81 6.07 8.58 10.2 15.21 10.2 6.63 0 12.4-4.13 15.21-10.2l.79.37C31.06 30.63 25 35 18 35S4.94 30.63 2 24.29l.79-.37z"
+                                    fill="rgb(26, 137, 23);"></path>
+                            </svg>
+                        </div>
+                        <div id="blog-meta">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/8/8b/Nicolas_Boileau.jpg"
+                                id="author-img" alt="author">
+                            <div class="tooltip" id="author-name" style="color:rgb(10,10,10);font-weight:700;">
+                                Thomas Cat
+                                <div class="tooltiptext">
+                                    <div
+                                        style="display:inline;position:absolute; justify-content: center;align-items: center;">
+                                        <svg style="vertical-align:middle; word-wrap:break-word;" width="36" height="36"
+                                            viewBox="0 0 36 36">
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                d="M18 1.87c-6.63 0-12.4 4.14-15.21 10.21L2 11.71C4.94 5.37 11 1 18 1s13.06 4.37 16 10.71l-.79.37C30.4 6.01 24.63 1.88 18 1.88zM2.79 23.92c2.81 6.07 8.58 10.2 15.21 10.2 6.63 0 12.4-4.13 15.21-10.2l.79.37C31.06 30.63 25 35 18 35S4.94 30.63 2 24.29l.79-.37z"
+                                                fill="rgb(26, 137, 23);"></path>
+                                        </svg>
+                                    </div>
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/8b/Nicolas_Boileau.jpg"
+                                        style="display:inline;transform: translateX(15%) translateY(-1%);vertical-align:middle;border-radius:50%;height:28px;width:28px;aspect-ratio: auto 28 / 28;"
+                                        alt="author">
+                                    <div
+                                        style="display:inline;vertical-align:center; padding-left:10px;color:rgb(90, 90, 90); font-weight:600;font-size:18px;line-height: 30px;">
+                                        Thomas Cat
+                                    </div>
+                                    <p style="line-height:16px;font-weight:300;color:rgb(111,111,111);">Expert Mouse
+                                        Chaser. Currently in pursuit of Jerry.</p>
+                                    <hr style="margin:0;padding:0;">
+                                    <p
+                                        style="display:inline;padding:0;margin:0;font-weight:300;color:rgb(150,150,150);">
+                                        12 Followers</p><button
+                                        style="display:inline;float:right;background-color:green;color:white;margin-top:5px;">Follow</button>
+                                </div>
+                            </div>
+                            <!-- <a href="#"><img class="reactions" id="follow-icon" height="10px" src="assets/img/follow.png" alt="Follow the author" title="Follow"></a> -->
+                            <h4 style="display:inline; font-size:14px; color:rgb(111,111,111);">&nbsp&nbspAugust 1 ·
+                            </h4>
+                            <h4 style="display:inline; font-size:14px;color:darkgreen;">3 min read</h4>
+                        </div>
+                    </section>
                 </div>
-            </div>
-            <!-- <a href="#"><img class="reactions" id="follow-icon" height="10px" src="assets/img/follow.png" alt="Follow the author" title="Follow"></a> -->
-            <h4 style="display:inline; font-size:14px; color:rgb(111,111,111);">&nbsp&nbspAugust 1 · </h4><h4 style="display:inline; font-size:14px;color:darkgreen;">3 min read</h4>
-            </div>
-        </section>
-        <hr style="width:100%; visibility: hidden;">        
-        <figure style="margin:auto">
-        <img src="https://th.bing.com/th/id/R.be3d3c533bc7ba3d28066d3ddf911c00?rik=rf0HBy%2fRTQpU8w&riu=http%3a%2f%2fgetwallpapers.com%2fwallpaper%2ffull%2f4%2f9%2fe%2f672929.jpg&ehk=9PHO5AfuWxaAXsqfVAvFZ0%2bu1A9uhvJjnp%2fO10zypAY%3d&risl=&pid=ImgRaw&r=0" width=100% alt="seagull coming soon">
-        </figure>
-        <div class="blog-body" style="font-size:18px; text-align:justify;">
-            <p>I still remember picking out my first electric guitar on a hot Texas summer day 11 years ago. It was an unremarkable cream-white Fender Squier with slightly rusted strings, but I couldn’t wait to take it home. When I did, I took the first steps towards becoming a shred lord. I learned my scales, turned up the distortion, and conditioned my fingers to move faster and faster. I was so inspired by the awe-inspiring guitar solos of 70s–80s rock that I didn’t care much to learn anything else. There was little room for rhythm, chords, or tone; I just wanted to play fast and flashy.<br /><br /><br />
-                After a year or two, I could stumble through a decent number of famous guitar solos, so I felt ready to join a band. I began jamming with some friends from my high school, and we tried our hands at writing original music. I saw this as an opportunity to write guitar parts that showcased my lead guitar skills whenever possible. In one fateful jamming session, my friends started playing a riff reminiscent of early 2000s rock from bands like Green Day or Blink 182, and they asked me to add a lead guitar part. In retrospect, this groove called for a simple, energetic, and melodic guitar solo. Instead, I aimlessly zoomed up and down the pentatonic scale. Once the music stopped, my friend gently told me that while my solo was impressive, it “did not fit” with what the band was playing. This feedback certainly caught me off guard — in my mind, an impressive guitar part was a good guitar part.<br /><br /><br />
-                In the years following that incident, I began learning from more experienced guitarists and teachers. Time and time again, these mentors stressed the importance of “serving the song.” This means that a musician’s primary focus should be to produce music that connects with the listener, and the instrument is merely a tool to aid in this endeavor. Sometimes serving the song requires virtuosic solos, sometimes it requires playing something simple, and sometimes it requires not playing at all. This paradigm shift fundamentally altered my practice routine. In more recent years, I have focused more on developing my sense of timing, pitch, and harmony—all of which increase awareness of how one’s part fits in the bigger picture. Serving the song also encourages collaboration because musicians must coordinate to write parts that interact effectively.<br /><br /><br />
-                So how does this relate to data science? Well, my journey in data science mirrors my journey in music in many ways. When I began learning data science, I was enamored with sophisticated machine learning algorithms, and I viewed them as the core competency of a successful data scientist. Now that I have more experience, I value other skills — such as writing production-quality code, business sense, and communication — much more highly than before. In other words, I learned the value of serving the song as a data scientist. In professional data science projects, the “song” is usually a product or a decision, and data scientists must learn to quantify their success in terms of their contributions to these endeavors. This mindset greatly increases a data scientist’s employability. As a recruiter, I would much rather see a resume that says “built a model that reduced maintenance costs by 10%” than “built a model with 95% accuracy.”<br /><br /><br />
-                <br />
-                <iframe width="100%" height="402" src="https://www.youtube.com/embed/2mCo3UcUJiQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><br /><br /><br /><br />
-                To be clear, many fast guitar solos serve songs, and many cutting-edge machine learning models improve products. Above all, it is important to understand what provides value and what does not. The guitarists I admire play virtuosic solos when the moment is right, but they strum open chords when the song calls for it. When I interview data science applicants, I typically ask an open-ended question about choosing an initial model for a basic binary classification problem. I have found that the candidates who suggest starting with a simple logistic regression model are the ones who can explain how more complicated models operate in detail. Ironically, some candidates who suggest starting with more complicated models cannot clearly explain how these models operate. In both music and data science, the most technically skilled practitioners typically recognize that many situations do not benefit from the most advanced techniques in their toolkit.<br /><br /><br />
-                Looking back, some of my overemphasis on playing fast as a guitarist came from playing the video game Guitar Hero. In this game, players earn points for each correct note they play, making it so that fast songs with many notes are ideal for achieving high scores. Although I still love Guitar Hero and credit it with instilling my initial passion for guitar, its incentives led me to overlook vital aspects of playing an actual instrument with others. I wonder if Kaggle competitions have a similar effect on some aspiring data scientists. These competitions certainly advance the field and are great for learning, but I fear that they lead some to overemphasize building performant models and underemphasize generating business value.<br /><br /><br />
-                Sometimes there is actually a tradeoff between a model’s performance and its value. This tradeoff is often due to time constraints. On some projects, I have faced decisions of whether to spend my time making models more performant or more impactful. Making a model more performant includes tasks such as feature engineering, evaluating different models, and building ensemble models. On the other hand, making a model more impactful includes tasks such as deploying it in a production environment, configuring it to send automated notifications, and improving its documentation. The tradeoff between performance and impact sometimes occurs in model selection as well. Simple models such as linear regression are easier to explain to non-technical stakeholders than deep neural networks or random forests. Stakeholders are more likely to trust and ultimately act on the results of a model they understand. Consequently, there are some situations where it is desirable to sacrifice some performance for impact to maximize value. One hallmark of a mature data scientist is the ability to discern these situations from those requiring more rigorous approaches.<br /><br /><br />
-                Ultimately, my music and data science journeys have shown me that personal growth arises from a greater understanding of how one’s contribution fits into the bigger picture. In both endeavors, I once believed that excellence consisted merely of mastering difficult and complex skills. While these skills are useful, I now recognize that excellence is the ability to “serve the song.”
-                <br /><br />
-            </p>
-        </div>
-        <hr color=lightgrey>
-        <section class="tags" style="margin:20px 0;">
-            <span style="font-size:123%"><b>Related tags:</b></span>
-            <ul class="tags-section" style="display:flex; list-style:none;">
-                
-                <li class="tag" style="hover: ;color:grey;margin:0 15px 0 0;padding:3px 7px; border:1px solid grey; border-radius:10px;"><a href="#" style="color:green">Fish</a></li>
-                <li class="tag" style="color:grey;margin:0 15px 0 0;padding:3px 7px; border:1px solid grey; border-radius:10px;"><a href="#" style="color:green">Ocean</a></li>
-            </ul>
-        </section>
-        <hr color=lightgrey>
-        <hr style="visibility:hidden">
-        <span class="material-icons">
-            thumb_up
-            </span>
-        <span class="material-icons">
-            comment
-            </span>
-        <!-- <svg  style="margin-top:-37px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path stroke="black" stroke-width="2" fill-opacity="0" d="M 0 0 H 1100 l 70 70 h 300"></path></path></svg> -->
+                <hr style="width:100%; visibility: hidden;">
+                <figure style="margin:auto">
+                    <img src="https://th.bing.com/th/id/R.be3d3c533bc7ba3d28066d3ddf911c00?rik=rf0HBy%2fRTQpU8w&riu=http%3a%2f%2fgetwallpapers.com%2fwallpaper%2ffull%2f4%2f9%2fe%2f672929.jpg&ehk=9PHO5AfuWxaAXsqfVAvFZ0%2bu1A9uhvJjnp%2fO10zypAY%3d&risl=&pid=ImgRaw&r=0"
+                        width=100% alt="seagull coming soon">
+                </figure>
+                <div class="blog-body" style="font-size:18px; text-align:justify;">
+                    <p>I still remember picking out my first electric guitar on a hot Texas summer day 11 years ago. It
+                        was an unremarkable cream-white Fender Squier with slightly rusted strings, but I couldn’t wait
+                        to take it home. When I did, I took the first steps towards becoming a shred lord. I learned my
+                        scales, turned up the distortion, and conditioned my fingers to move faster and faster. I was so
+                        inspired by the awe-inspiring guitar solos of 70s–80s rock that I didn’t care much to learn
+                        anything else. There was little room for rhythm, chords, or tone; I just wanted to play fast and
+                        flashy.<br /><br /><br />
+                        After a year or two, I could stumble through a decent number of famous guitar solos, so I felt
+                        ready to join a band. I began jamming with some friends from my high school, and we tried our
+                        hands at writing original music. I saw this as an opportunity to write guitar parts that
+                        showcased my lead guitar skills whenever possible. In one fateful jamming session, my friends
+                        started playing a riff reminiscent of early 2000s rock from bands like Green Day or Blink 182,
+                        and they asked me to add a lead guitar part. In retrospect, this groove called for a simple,
+                        energetic, and melodic guitar solo. Instead, I aimlessly zoomed up and down the pentatonic
+                        scale. Once the music stopped, my friend gently told me that while my solo was impressive, it
+                        “did not fit” with what the band was playing. This feedback certainly caught me off guard — in
+                        my mind, an impressive guitar part was a good guitar part.<br /><br /><br />
+                        In the years following that incident, I began learning from more experienced guitarists and
+                        teachers. Time and time again, these mentors stressed the importance of “serving the song.” This
+                        means that a musician’s primary focus should be to produce music that connects with the
+                        listener, and the instrument is merely a tool to aid in this endeavor. Sometimes serving the
+                        song requires virtuosic solos, sometimes it requires playing something simple, and sometimes it
+                        requires not playing at all. This paradigm shift fundamentally altered my practice routine. In
+                        more recent years, I have focused more on developing my sense of timing, pitch, and harmony—all
+                        of which increase awareness of how one’s part fits in the bigger picture. Serving the song also
+                        encourages collaboration because musicians must coordinate to write parts that interact
+                        effectively.<br /><br /><br />
+                        So how does this relate to data science? Well, my journey in data science mirrors my journey in
+                        music in many ways. When I began learning data science, I was enamored with sophisticated
+                        machine learning algorithms, and I viewed them as the core competency of a successful data
+                        scientist. Now that I have more experience, I value other skills — such as writing
+                        production-quality code, business sense, and communication — much more highly than before. In
+                        other words, I learned the value of serving the song as a data scientist. In professional data
+                        science projects, the “song” is usually a product or a decision, and data scientists must learn
+                        to quantify their success in terms of their contributions to these endeavors. This mindset
+                        greatly increases a data scientist’s employability. As a recruiter, I would much rather see a
+                        resume that says “built a model that reduced maintenance costs by 10%” than “built a model with
+                        95% accuracy.”<br /><br /><br />
+                        <br />
+                        <iframe width="100%" height="402" src="https://www.youtube.com/embed/2mCo3UcUJiQ"
+                            title="YouTube video player" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe><br /><br /><br /><br />
+                        To be clear, many fast guitar solos serve songs, and many cutting-edge machine learning models
+                        improve products. Above all, it is important to understand what provides value and what does
+                        not. The guitarists I admire play virtuosic solos when the moment is right, but they strum open
+                        chords when the song calls for it. When I interview data science applicants, I typically ask an
+                        open-ended question about choosing an initial model for a basic binary classification problem. I
+                        have found that the candidates who suggest starting with a simple logistic regression model are
+                        the ones who can explain how more complicated models operate in detail. Ironically, some
+                        candidates who suggest starting with more complicated models cannot clearly explain how these
+                        models operate. In both music and data science, the most technically skilled practitioners
+                        typically recognize that many situations do not benefit from the most advanced techniques in
+                        their toolkit.<br /><br /><br />
+                        Looking back, some of my overemphasis on playing fast as a guitarist came from playing the video
+                        game Guitar Hero. In this game, players earn points for each correct note they play, making it
+                        so that fast songs with many notes are ideal for achieving high scores. Although I still love
+                        Guitar Hero and credit it with instilling my initial passion for guitar, its incentives led me
+                        to overlook vital aspects of playing an actual instrument with others. I wonder if Kaggle
+                        competitions have a similar effect on some aspiring data scientists. These competitions
+                        certainly advance the field and are great for learning, but I fear that they lead some to
+                        overemphasize building performant models and underemphasize generating business
+                        value.<br /><br /><br />
+                        Sometimes there is actually a tradeoff between a model’s performance and its value. This
+                        tradeoff is often due to time constraints. On some projects, I have faced decisions of whether
+                        to spend my time making models more performant or more impactful. Making a model more performant
+                        includes tasks such as feature engineering, evaluating different models, and building ensemble
+                        models. On the other hand, making a model more impactful includes tasks such as deploying it in
+                        a production environment, configuring it to send automated notifications, and improving its
+                        documentation. The tradeoff between performance and impact sometimes occurs in model selection
+                        as well. Simple models such as linear regression are easier to explain to non-technical
+                        stakeholders than deep neural networks or random forests. Stakeholders are more likely to trust
+                        and ultimately act on the results of a model they understand. Consequently, there are some
+                        situations where it is desirable to sacrifice some performance for impact to maximize value. One
+                        hallmark of a mature data scientist is the ability to discern these situations from those
+                        requiring more rigorous approaches.<br /><br /><br />
+                        Ultimately, my music and data science journeys have shown me that personal growth arises from a
+                        greater understanding of how one’s contribution fits into the bigger picture. In both endeavors,
+                        I once believed that excellence consisted merely of mastering difficult and complex skills.
+                        While these skills are useful, I now recognize that excellence is the ability to “serve the
+                        song.”
+                        <br /><br />
+                    </p>
+                </div>
+                <hr color=lightgrey>
+                <section class="tags" style="margin:20px 0;">
+                    <span style="font-size:123%"><b>Related tags:</b></span>
+                    <ul class="tags-section" style="display:flex; list-style:none;">
+
+                        <li class="tag"
+                            style="hover: ;color:grey;margin:0 15px 0 0;padding:3px 7px; border:1px solid grey; border-radius:10px;">
+                            <a href="#" style="color:green">Fish</a></li>
+                        <li class="tag"
+                            style="color:grey;margin:0 15px 0 0;padding:3px 7px; border:1px solid grey; border-radius:10px;">
+                            <a href="#" style="color:green">Ocean</a></li>
+                    </ul>
+                </section>
+                <hr color=lightgrey>
+                <hr style="visibility:hidden">
+                <% if(0){ %>
+                <span class="material-icons">
+                    thumb_up
+                </span>
+                <% } else { %>
+                    <span class="material-icons" style="color:#065fd4">
+                        thumb_up
+                    </span>
+                <% } %>
+                <h2>To see comments, hover over here</h2>
+                <!-- <svg  style="margin-top:-37px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path stroke="black" stroke-width="2" fill-opacity="0" d="M 0 0 H 1100 l 70 70 h 300"></path></path></svg> -->
+                <%- include('include/comments_with_replies.ejs') %>
+
+        </main>
 
 
-    </main>
-
-
-<%- include('include/end.ejs')%>
+        <%- include('include/end.ejs')%>
