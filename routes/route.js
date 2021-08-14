@@ -1,9 +1,10 @@
 const express = require('express');
+const { isLoggedIn } = require('../middleware');
 const route = express.Router();
 
 const nav_send={"name":"Malay","tag":"5 star"}
 
-route.get('/',(req,res,next) =>{
+route.get('/',isLoggedIn, (req,res,next) =>{
     const nav_send_home=nav_send;
     nav_send_home.page_title="Home";
     
@@ -56,6 +57,14 @@ route.get('/trending',(req,res,next) =>{
 route.get('/your-projects',(req,res,next) =>{
     console.log("Route to none")
     res.render('trending.ejs',nav_send);
+})
+route.get('/demo-blog',(req,res,next) =>{
+    console.log("Route to none")
+    res.render('BlogDisplay.ejs',nav_send);
+})
+route.get('/your-pokis-created',(req,res,next) =>{
+    console.log("Route to none")
+    res.render('your-pokis-created.ejs',nav_send);
 })
 
 
