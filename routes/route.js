@@ -1,9 +1,10 @@
 const express = require('express');
+const { isLoggedIn } = require('../middleware');
 const route = express.Router();
 
 const nav_send={"name":"Malay","tag":"5 star"}
 
-route.get('/',(req,res,next) =>{
+route.get('/',isLoggedIn, (req,res,next) =>{
     const nav_send_home=nav_send;
     nav_send_home.page_title="Home";
     
