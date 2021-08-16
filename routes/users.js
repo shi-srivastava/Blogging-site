@@ -7,10 +7,32 @@ const bcrypt = require('bcrypt');
 const flash = require('express-flash');
 const session = require('express-session');
 
+// const initializePassport = require('../passport-config');
+// initializePassport(passport,
+//     async (email) => await User.findOne({ email: email }),
+//     async (id) => await User.findById(id)
+// )
+
+// const sessionConfig = {
+//     secret: 'iamthebestdeveloper!',
+//     resave: false,
+//     saveUninitialized: false,
+//     cookie: {
+//         httpOnly: true,
+//         expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+//         maxAge: 1000 * 60 * 60 * 24 * 7
+//     }
+// }
+// app.use(session(sessionConfig));
+// app.use(flash());
+
+// app.use(passport.initialize());
+// app.use(passport.session());
+
 
 
 router.get('/register', (req, res) => {
-    res.render('users/login_signup');
+    res.render('login_signup');
 });
 
 router.post('/register', async (req, res, next) => {
@@ -37,7 +59,7 @@ router.post('/register', async (req, res, next) => {
 });
 
 router.get('/login', (req, res) => {
-    res.render('users/login_signup');
+    res.render('login_signup');
 });
 
 router.post('/login', passport.authenticate('local', {
