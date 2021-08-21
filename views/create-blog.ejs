@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdn.tiny.cloud/1/e8hkl72eqwve6yxambh9cx9pe21oskeh1kth33dxdmcuq762/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+</head>
+<body>
+  <form method="POST" action="output">
+    <input type="text" name="title" required>
+  <textarea name="editor" required>
+    
+  </textarea>
+  <button type="submit">save</button>
+  </form>
+  <script>
+    tinymce.init({
+      selector: 'textarea',
+      
+      plugins: ' casechange checklist linkchecker image autolink link emoticons lists media wordcount preview textpattern tinymcespellchecker',
+  menubar: '',
+  toolbar: 'undo redo | bold italic underline| casechange checklist image link emoticons numlist bullist media wordcount preview',
+  link_default_protocol: 'https',
+  lists_indent_on_tab: true,
+  default_link_target: '_blank',
+  codesample_global_prismjs: true
+  
+ 
+      
+    });
+  </script>
+</body>
+</html>

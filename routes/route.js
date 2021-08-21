@@ -66,6 +66,17 @@ route.get('/your-pokis-created',(req,res,next) =>{
     console.log("Route to none")
     res.render('your-pokis-created.ejs',nav_send);
 })
+route.get('/create-blog',(req,res,next) =>{
+    console.log("Route to none")
+    res.render('create-blog.ejs',nav_send);
+})
+
+route.get('*',(req,res)=>{
+    console.log("Route to none")
+    const nav_send_home=nav_send;
+    nav_send_home.page_title="None";
+    res.render('none.ejs',nav_send);
+})
 
 
 module.exports = route;
