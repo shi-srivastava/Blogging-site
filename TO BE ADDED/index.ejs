@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <title>Document</title>
+  <style>
+     .card {
+      
+      border: 3px solid #000000;
+      width: 300px;
+     
+    }
+    a{
+background-color: cornsilk;
+color: black;
+width: 100px;
+    }
+  </style>
+</head>
+<body>
+  <div >
+  <input type="text" name="search_text" onkeyup="search()">
+  <select name="search_select">
+    <option value="blog" selected>Blogs</option>
+    <option value="user">user</option>
+  </select>
+  <br>
+  <div id="search"></div>
+  </div>
+  <a href="/new">+Create new blog</a><br>
+  <a href="/chatting">start chatting</a><br>
+
+  <br>
+  
+  <% if(blogs){%>
+    <%blogs.forEach(blog=>{%>
+
+  <div class="card" id="<%= blog._id %>">
+    <%= blog.title %>
+    
+      <p><%= blog._id %></p>
+      <a href="/login<%= blog._id %>">View</a>
+      <ins><%= blog.score %></ins>
+    
+  </div>
+  
+  <%})}%>
+  <button onclick="get_trend()">this</button>
+  <script>
+     const search =()=>{
+       let search_div = document.getElementById("search")
+       let search_item = $("input[name='search_text']").val()
+       let search_select = $("select[name='search_select']").val()
+      // alert(search_select)
+       $.ajax({
+         url:"/search",
+         method:"POST",
+         data:{data:search_item,filter:search_select},
+         success:function(response){
+          if(response!=null){
+            if((search_select == "blog")){
+            response.forEach(res=>{
+              let anchor = document.getElementsByTagName('a')
+              let flag =0
+              for(let i=0;i<anchor.length;i++){
+                if(anchor[i].innerText == res.title){
+                  flag=1
+                }
+              }if(flag!=1){
+               $("#search").append(
+                 $(document.createElement('a')).prop({
+                   target:'',
+                   href:'/login'+res._id,
+                   innerText: res.title
+                 })
+               ).append(
+                 $(document.createElement('br'))
+               )
+              }
+            })
+          }
+          else{
+            response.forEach(res=>{
+              let anchor = document.getElementsByTagName('a')
+              let flag =0
+              for(let i=0;i<anchor.length;i++){
+                if(anchor[i].innerText == res.email){
+                  flag=1
+                }
+              }
+              if(flag!=1){
+              $("#search").append(
+                $(document.createElement('a')).prop({
+                  target:'',
+                  href:'',
+                  innerText: res.email
+                })
+              ).append(
+                $(document.createElement('br'))
+              )
+              }
+               
+           })
+          }
+          }
+          if( search_item.length ==0){
+            search_div.innerHTML =''
+          }
+         }
+       })
+     }
+    
+    const get_trend =()=>{
+      let output=0
+      
+      $.ajax({
+        url: "/get-trending",
+        method:"GET",
+        success:function(data){
+          for(let k=0;k<data.length;k++){
+            console.log(data[k]._id,data[k].title)
+            output = find_elem(data[k]._id,k,data[k].title)
+            console.log(output)
+         if(output>0){
+           break
+         }
+          }
+       
+       
+
+        }
+      })
+      // demo.innerHTML += "<p>done</p>"
+    }
+     setInterval(get_trend,3000)
+ 
+  
+
+const find_elem =(id,pos,title)=>{
+  let made_changes =0
+  var other_height=[]
+  var o=[]
+  let cards = document.querySelectorAll(".card")
+  
+  cards.forEach(card=>{
+    var a =($("#"+card.id).offset().top)
+    other_height.push(a)
+    o.push(a)
+  }) 
+      
+var top = $("#"+id).offset().top
+let i=0
+  
+let j=0
+i=top -o.sort((a,b)=>a-b)[pos]
+
+console.log(`top ${top} sub ${o[pos]} i ${i} title ${title}`)
+if(i>0){
+  console.log(`${title} is going up`)
+  cards.forEach(card=>{
+        
+    if(other_height[j]>=(top-i)&& top>other_height[j]){
+    $("#"+card.id).animate({
+      "top":"+=120px"
+    },"slow")
+  }
+  j++
+  
+  })
+$("#"+id).animate({ 
+  "top":"-="+i+"px"
+},"slow")
+made_changes++
+}
+j=0
+if(i<0){
+  i=Math.abs(o[pos] - top)
+  console.log(`${title} will go down i ${i}`)
+
+  cards.forEach(card=>{
+    
+if(other_height[j]>(top) && other_height[j]<=(top+i)){
+  console.log(`${card.id}`)
+  
+$("#"+card.id).animate({
+  "top":"-=120px"
+},"slow")
+
+}j++
+})
+
+console.log(`i is ${i} id ${id} `)
+$("#"+id).animate({ 
+"top":"+="+i+"px"
+},"slow")
+made_changes++
+}
+return made_changes
+    }
+    
+    
+
+  </script>
+  
+</body>
+</html>

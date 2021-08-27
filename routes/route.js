@@ -1,6 +1,14 @@
 const express = require('express');
+const app = express()
 const { isLoggedIn } = require('../middleware');
 const route = express.Router();
+const mongoose = require("mongoose")
+const mymodel = require("../models/blog")
+const usermodel = require("../models/user")
+const bodyParser = require("body-parser")
+app.use(bodyParser.urlencoded({extended:true}))
+
+
 
 const nav_send={"name":"Malay","tag":"5 star"}
 
@@ -65,9 +73,14 @@ route.get('/your-projects',(req,res,next) =>{
     console.log("Route to none")
     res.render('trending.ejs',nav_send);
 })
-route.get('/demo-blog',(req,res,next) =>{
-    console.log("Route to none")
-    res.render('BlogDisplay.ejs',nav_send);
+
+route.get('/demo-blog',async (req,res,next)=>{
+    let doc = await mymodel.findById("611623d34d5e6f239ce82de2")
+    const nav_send_home=nav_send;
+    nav_send_home.page_title="DEMOBlogDisplay";
+    // let uid = await usermodel.find({email:req.params.name}) 
+    let user = await usermodel.findById({_id:"6109179f640e3939902b5f3d"})
+    res.render("demoblog",{blog:doc,user:user,name:"shreya",tag:"jnln",page_title:"demo"})
 })
 route.get('/your-pokis-created',(req,res,next) =>{
     console.log("Route to none")
