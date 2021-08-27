@@ -11,6 +11,13 @@ route.get('/',isLoggedIn, (req,res,next) =>{
     console.log("Route to home");
     res.render('home.ejs',nav_send);
 })
+route.get('/temp', (req,res,next) =>{
+    const nav_send_home=nav_send;
+    nav_send_home.page_title="Home";
+    
+    console.log("Route to home");
+    res.render('temp_home.ejs',nav_send);
+})
 route.get('/profile',(req,res,next) =>{
     const nav_send_profile=nav_send;
     nav_send_profile.page_title="Profile";

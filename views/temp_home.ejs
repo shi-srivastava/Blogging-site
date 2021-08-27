@@ -1,0 +1,54 @@
+
+<%- include('include/start.ejs')%>
+<%- include('include/nav1.ejs')%>
+
+<h1 style="text-align:center">Home</h1>
+<!--div class="div-on-slideshow-homepage" style="margin:auto">
+    <img class="slideshow-on-home-page" src="https://www.imgacademy.com/themes/custom/imgacademy/images/helpbox-contact.jpg">
+   
+</div-->
+<div style="width:100%;background-size: cover;padding:0;margin:0;">
+    <%- include('include/slideshow.ejs') %>
+</div>
+<% for(let i = 0; i < 10; i++){ %>
+<div class="blog-container" style="  display: flex;align-items:center;margin-top:2%;margin-bottom:3%;margin-left:4%;margin-right:-5%;background-color:rgb(203, 213, 196) ">
+    <div class="blog-text" style="width:80%;margin-left:1%">
+        <h1><a href="#" style="text-decoration: none;color:black">Paris is one of the most beautiful cities in France.</a></h1>
+        <p style="opacity: 0.8; color:rgba(54, 50, 50, 0.898);">
+            This is really Lorem ipsum dolor sit amet, consect.This is really Lorem ipsum dolor sit amet, consect.
+            This is really Lorem ipsum dolor sit amet, consect.This is really Lorem ipsum dolor sit amet, consect.
+            This is really Lorem ipsum dolor sit amet, consect.This is really Lorem ipsum dolor sit amet, consect.
+            This is really Lorem ipsum dolor sit amet, consect.This is really Lorem ipsum dolor sit amet, consect.
+            This is really Lorem ipsum dolor sit amet, consect.This is really Lorem ipsum dolor sit amet, consect.
+            This is really Lorem ipsum dolor sit amet, consect.This is really Lorem ipsum dolor sit amet, consect.
+            This is really Lorem ipsum dolor sit amet, consect.This is really Lorem ipsum dolor sit amet, consect.
+                       
+        </p>
+        <span>3 weeks ago by <span style="color:red">dragslayer 999</span></span>
+        <span style="float:right; padding-right: 50%">
+            <span class="tiny material-icons" style="vertical-align:middle;font-size:20px">
+                visibility
+            </span>
+                by 68 &emsp;&emsp;
+                <span class="material-icons" style="vertical-align:middle;font-size:20px;">
+                    textsms
+                </span>
+                13
+        </span>
+    </div>
+    <div class="blog-image" style="margin-left:3%; flex-basis:10%">
+      <img src="https://i.pinimg.com/originals/26/ea/fc/26eafc0b14488fea03fa8fa9751203ff.jpg" style="max-width:100%" class="blog-image-right">
+    </div>
+    
+</div>
+<% } %>
+<div class="pagination-home-page" style="text-align: center;">
+    <a href="#!" style="background-color: yellow;"><i class="material-icons icons-middle-align">chevron_left</i></a>
+    <a href="#!" class="pagination-page-active">1</a>
+    <a href="#!">2</a>
+    <a href="#!">3</a>
+    <a href="#!">4</a>
+    <a href="#!">5</a>
+    <a href="#!" style="background-color: yellow;"><i class="material-icons icons-middle-align">chevron_right</i></a>
+  </ul>
+<%- include('include/end.ejs')%>
