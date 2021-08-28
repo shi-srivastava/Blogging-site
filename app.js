@@ -10,12 +10,10 @@ const methodOverride = require('method-override');
 
 const passport = require('passport');
 const bcrypt = require('bcrypt');
-const LocalStrategy = require('passport-local');
+const LocalStrategy = require('passport-local').Strategy;
 
 const User = require('./models/user');
 const Blog = require('./models/blog');
-
-const { isLoggedIn } = require('./middleware');
 
 const userRoutes = require('./routes/users');
 const mainRoute = require('./routes/route');
@@ -32,12 +30,6 @@ db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {
     console.log("Database connected!!");
 })
-
-const initializePassport = require('./passport-config');
-initializePassport(passport,
-    async (email) => await User.findOne({ email: email }),
-    async (id) => await User.findById(id)
-)
 
 app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
@@ -62,9 +54,37 @@ app.use(flash());
 
 app.use(passport.initialize());
 app.use(passport.session());
+passport.use(new LocalStrategy({
+    usernameField: 'email'
+},
+    async (email, password, done) => {
+        const user = await User.findOne({ email: email });
+        if (user == null) {
+            return done(null, false, { message: 'No user registered with that email' })
+        }
+        try {
+            if (await bcrypt.compare(password, user.password)) {
+                console.log('success')
+                return done(null, user)
+            } else {
+                return done(null, false, {
+                    message: 'incorrect password'
+                })
+            }
+        } catch (e) {
+            return done(e)
+        }
+    }
+));
+passport.serializeUser((user, done) => done(null, user._id))
+passport.deserializeUser(async (id, done) => {
+    done(null, User.findById(id))
+})
 
-app.use('/', userRoutes);
+app.use('/',userRoutes);
 app.use(mainRoute);
+
+
 
 // app.get('/', isLoggedIn, async (req, res) => {
 //     //req.flash('success', "successfully reached to home page!!");
