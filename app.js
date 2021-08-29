@@ -81,8 +81,10 @@ passport.deserializeUser(async (id, done) => {
     done(null, User.findById(id))
 })
 
-app.use('/',userRoutes);
+app.use('/', userRoutes);
 app.use(mainRoute);
+
+
 
 
 

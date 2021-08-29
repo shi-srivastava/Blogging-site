@@ -98,6 +98,5 @@ route.get('/create-blog',(req,res,next) =>{
 //     res.render('none.ejs',nav_send);
 // })
 
-
 module.exports = route;
 
