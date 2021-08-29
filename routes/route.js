@@ -7,16 +7,30 @@ const mymodel = require("../models/blog")
 const usermodel = require("../models/user")
 const bodyParser = require("body-parser")
 app.use(bodyParser.urlencoded({extended:true}))
+const {cur_user} = require("./username")
 
 
-
-const nav_send = { "name": "Malay", "tag": "5 star" };
-
+const findUser = async(cur_user)=> { 
+    try{
+    if(cur_user !=""){
+    return await usermodel.findOne({email:cur_user})
+    }
+    // return {username:"nothing"}
+}
+catch(error){
+    console.log(error)
+}
+}
+const nav_send ={"name":"s","tag":"h"}
 route.get('/',isLoggedIn, (req,res,next) =>{
+// console.log(`INSIDE FUNCTION ${cur_user.cur_user}`)
+console.log(cur_user)
+// const user = findUser(cur_user.cur_user)
+// console.log(`user is ${user} ${user.username}`)
+// const nav_send2 = { "name": user.username, "tag": "5 star" };
+
     const nav_send_home=nav_send;
     nav_send_home.page_title="Home";
-    
-    console.log("Route to home");
     res.render('home.ejs',nav_send);
 })
 route.get('/temp', (req,res,next) =>{

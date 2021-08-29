@@ -17,6 +17,7 @@ const Blog = require('./models/blog');
 
 const userRoutes = require('./routes/users');
 const mainRoute = require('./routes/route');
+let cur_user="";
 
 mongoose.connect('mongodb://localhost:27017/blogg', {
     useNewUrlParser: true,
@@ -65,6 +66,8 @@ passport.use(new LocalStrategy({
         try {
             if (await bcrypt.compare(password, user.password)) {
                 console.log('success')
+                cur_user = email
+                console.log(`cur user is ${cur_user}`)
                 return done(null, user)
             } else {
                 return done(null, false, {
@@ -76,6 +79,7 @@ passport.use(new LocalStrategy({
         }
     }
 ));
+
 passport.serializeUser((user, done) => done(null, user._id))
 passport.deserializeUser(async (id, done) => {
     done(null, User.findById(id))
@@ -344,3 +348,4 @@ app.use(mainRoute);
 app.listen(3000, () => {
     console.log('At your service!!')
 })
+module.exports={email:"k"}
