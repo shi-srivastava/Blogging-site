@@ -90,6 +90,7 @@ app.use(mainRoute);
 
 
 
+
 // app.get('/', isLoggedIn, async (req, res) => {
 //     //req.flash('success', "successfully reached to home page!!");
 //     // await mymodel.find().sort({score:-1}).then(data=>{

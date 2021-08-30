@@ -40,73 +40,135 @@ route.get('/temp', (req,res,next) =>{
     console.log("Route to home");
     res.render('temp_home.ejs',nav_send);
 })
-route.get('/profile',(req,res,next) =>{
-    const nav_send_profile=nav_send;
-    nav_send_profile.page_title="Profile";
-    console.log("Route to home")
+route.get('/profile',async(req,res,next) =>{
+    let doc = await mymodel.find({email:"b@b.com",is_draft:"n"})
 
-    res.render('profile.ejs',nav_send);
+    res.render('profile',{blog:doc,name:"shreya",tag:"jnln",page_title:"profile"});
 })
 route.get('/none',(req,res,next) =>{
-    console.log("Route to none")
+    
     const nav_send_home=nav_send;
     nav_send_home.page_title="None";
     res.render('none.ejs',nav_send);
 })
 route.get('/BlogDisplay',(req,res,next) =>{
-    console.log("Route to none")
+    
     const nav_send_home=nav_send;
     nav_send_home.page_title="BlogDisplay";
     res.render('BlogDisplay.ejs',nav_send);
 })
 route.get('/messages',(req,res,next) =>{
-    console.log("Route to none")
+    
     res.render('messages.ejs',nav_send);
 })
 route.get('/notifications',(req,res,next) =>{
-    console.log("Route to none")
+    
     res.render('notifications.ejs',nav_send);
 })
 route.get('/settings',(req,res,next) =>{
-    console.log("Route to none")
+    
     res.render('settings.ejs',nav_send);
 })
 route.get('/bookmarks',(req,res,next) =>{
-    console.log("Route to none")
+    
     res.render('bookmarks.ejs',nav_send);
 })
-route.get('/your-pokis',(req,res,next) =>{
-    console.log("Route to none")
-    res.render('your-pokis.ejs',nav_send);
+route.get('/your-pokis',async(req,res,next) =>{
+    console.log("YOUR POKIS")
+    let doc = await mymodel.find({email:"b@b.com", is_draft:"y"})
+
+    res.render('your-pokis.ejs',{blog:doc,name:"shreya",tag:"jnln",page_title:"pokis"});
 })
 route.get('/trending',(req,res,next) =>{
-    console.log("Route to none")
+    
     res.render('trending.ejs',nav_send);
 })
 route.get('/your-projects',(req,res,next) =>{
-    console.log("Route to none")
-    res.render('trending.ejs',nav_send);
+    
+    res.render('trending.ejs',{name:"shreya",tag:"jnln",page_title:"pokis"});
 })
 
-route.get('/demo-blog',async (req,res,next)=>{
-    let doc = await mymodel.findById("611623d34d5e6f239ce82de2")
-    const nav_send_home=nav_send;
-    nav_send_home.page_title="DEMOBlogDisplay";
-    // let uid = await usermodel.find({email:req.params.name}) 
-    let user = await usermodel.findById({_id:"6109179f640e3939902b5f3d"})
-    res.render("demoblog",{blog:doc,user:user,name:"shreya",tag:"jnln",page_title:"demo"})
-})
+// route.get('/demo-blog',async (req,res,next)=>{
+//     let doc = await mymodel.findById("611623d34d5e6f239ce82de2")
+//     const nav_send_home=nav_send;
+//     nav_send_home.page_title="DEMOBlogDisplay";
+//     // let uid = await usermodel.find({email:req.params.name}) 
+//     let user = await usermodel.findById({_id:"6109179f640e3939902b5f3d"})
+//     res.render("demoblog",{blog:doc,user:user,name:"shreya",tag:"jnln",page_title:"demo"})
+// })
 route.get('/your-pokis-created',(req,res,next) =>{
-    console.log("Route to none")
-    res.render('your-pokis-created.ejs',nav_send);
+    
+    res.render('your-pokis-created',{name:"shreya",tag:"jnln",page_title:"pokis"});
 })
 route.get('/create-blog',(req,res,next) =>{
-    console.log("Route to none")
     res.render('create-blog.ejs',nav_send);
+})
+route.get("/draft_edit/:id",async(req,res)=>{
+    let doc = await mymodel.findById(req.params.id)
+    res.render("draft_edit",{blog:doc})
+})
+route.get("/demoblog/:id",async(req,res)=>{
+    let doc = await mymodel.findById(req.params.id)
+    res.render("demoblog",{blog:doc})
+})
+route.post("/draft-edit",async(req,res)=>{
+    console.log(req.body.id)
+    try{
+   await mymodel.findOneAndUpdate({"_id":req.body.id},{
+       $set:{
+           title:req.body.title,
+           body:req.body.blog
+       }
+   })
+}
+catch(error){
+    console.log(error)
+}
+res.send("done") 
+  
+})
+route.post("/post-draft",async(req,res)=>{
+    try{
+    await mymodel.findOneAndUpdate({"_id":req.body.id},{
+        $set:{
+            title:req.body.title,
+            body:req.body.blog,
+            is_draft:"n"
+        }
+    })
+}
+catch(error){
+console.log(error)
+}
+ res.send("done") 
+   
+ })
+route.post("/save-as-draft",async(req,res)=>{
+    const data = new mymodel({
+            email:"b@b.com",
+            is_draft:"y",
+            title: req.body.title,
+
+            body:req.body.blog, })
+    await data.save()
+res.send("") 
+  
+})
+route.post("/post-blog",async(req,res)=>{
+    const data = new mymodel({
+            email:"b@b.com",
+            is_draft:"n",
+            title: req.body.title,
+
+            body:req.body.blog, })
+    await data.save()
+    
+res.send("done")
+  
 })
 
 // route.get('*',(req,res)=>{
-//     console.log("Route to none")
+//     
 //     const nav_send_home=nav_send;
 //     nav_send_home.page_title="None";
 //     res.render('none.ejs',nav_send);
