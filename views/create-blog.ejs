@@ -18,7 +18,8 @@
  </style>
 </head>
 <body>
-  
+  <div style="text-align:center;">
+  <h1>Write a Blog</h1>
     <input type="text" id="title" name="title" required>
   <textarea name="editor" id="editor" required>
     
@@ -27,7 +28,7 @@
   <div id="ads-textarea" style="display:none;"><textarea placeholder="to be worked on"></textarea></div><br>
   <button id="save" >Save as draft</button>
   <button id="post" >Post</button>
-  
+</div>
   <script>
 $("#ads").on("click",()=>{
   $("#ads-textarea").toggle()

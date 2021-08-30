@@ -21,8 +21,11 @@
      
 </head>
 <body>
+  <div style="text-align:center;">
+    <h1>Hell Wolrd</h1>
     <input type="text" value="<%= blog._id %>" name="id">
     <input type="text" id="title" name="title" value="<%= blog.title %>" required>
+  </div>
     <textarea name="editor" id="editor" required>
       <%- blog.body %>
     </textarea>
@@ -30,7 +33,7 @@
     <div id="ads-textarea" style="display:none;"><textarea placeholder="to be worked on"></textarea></div><br>
     <button id="save" >Save as draft</button>
     <button id="post" >Post</button>
-    
+  
     <script>
         let id = $("input[name='id']").val()
   $("#ads").on("click",()=>{
