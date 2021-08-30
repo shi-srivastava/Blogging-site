@@ -14,9 +14,10 @@
  </style>
 </head>
 <body>
+  <h1 src="text-alihn:center">Welcome to the editor mode!</h1>
   <form method="POST" action="output">
-    <input type="text" name="title" required>
-  <textarea name="editor" id="editor" required>
+    <input type="text" name="title" required style="">
+  <textarea name="editor" id="editor" style="height: 5000px;"></textarea>
     
   </textarea>
   <button type="submit">save</button>
@@ -24,7 +25,7 @@
   <script>
 
     $('#editor').summernote({
-     
+      height:800,
       toolbar: [
         ['misc',['undo','redo']],
         ['style', ['bold', 'italic', 'underline', 'clear']],
