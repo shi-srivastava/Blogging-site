@@ -1,7 +1,15 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const socket = require("socket.io")
 const app = express();
 
+const server = app.listen(3000, () => {
+    console.log('At your service!!')
+})
+const io = socket(server)
+
+const cookieParser = require("cookie-parser")
+app.use(cookieParser())
 const path = require('path');
 const ejsMate = require('ejs-mate');
 const session = require('express-session');
@@ -15,8 +23,6 @@ const LocalStrategy = require('passport-local').Strategy;
 const User = require('./models/user');
 const Blog = require('./models/blog');
 
-const userRoutes = require('./routes/users');
-const mainRoute = require('./routes/route');
 let cur_user="";
 
 mongoose.connect('mongodb://localhost:27017/blogg', {
@@ -65,9 +71,9 @@ passport.use(new LocalStrategy({
         }
         try {
             if (await bcrypt.compare(password, user.password)) {
+                
                 console.log('success')
-                cur_user = email
-                console.log(`cur user is ${cur_user}`)
+                // send_data(cur_user)
                 return done(null, user)
             } else {
                 return done(null, false, {
@@ -79,16 +85,49 @@ passport.use(new LocalStrategy({
         }
     }
 ));
+const send_data=(a)=>{
+    console.log(`VAL IS ${cur_user}`)
+    module.exports={e:a,b:"yo"}
 
-passport.serializeUser((user, done) => done(null, user._id))
-passport.deserializeUser(async (id, done) => {
-    done(null, User.findById(id))
-})
+}
+// module.exports = {e:cur_user,b:"yo"}
 
-app.use('/',userRoutes);
-app.use(mainRoute);
+io.on("connection",(socket)=>{
+    socket.on("join-room",data=>{
+        if(data.prev_room != "nothing"){
+        socket.leave(data.prev_room)
+        console.log("left "+data.prev_room)
+        }
+      socket.join(data.room)
+      console.log("joined room"+data.room)
+      
+    })
+   socket.on("get-clients-no",room=>{
+       let clientNumber = io.sockets.adapter.rooms.get(room).size
+       console.log(clientNumber)
+       socket.emit("get-clients-no",clientNumber)
+   })
+     socket.on("express-chat",data=>{
+   
+       socket.to(data.roomID).emit("express-chat",(data))
+     })
+     socket.on('disconnect',()=>{
+         console.log("disconnected")
+     })
+     
+   
+   })
+   
 
-
+   const userRoutes = require('./routes/users');
+   const mainRoute = require('./routes/route');
+   passport.serializeUser((user, done) => done(null, user._id))
+   passport.deserializeUser(async (id, done) => {
+       done(null, User.findById(id))
+   })
+   
+   app.use('/',userRoutes);
+   app.use(mainRoute);
 
 
 // app.get('/', isLoggedIn, async (req, res) => {
@@ -346,7 +385,4 @@ app.use(mainRoute);
 // }
 // })
 
-app.listen(3000, () => {
-    console.log('At your service!!')
-})
-module.exports={email:"k"}
+

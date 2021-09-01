@@ -3,11 +3,14 @@ const app = express()
 const { isLoggedIn } = require('../middleware');
 const route = express.Router();
 const mongoose = require("mongoose")
+const customId = require("custom-id")
 const mymodel = require("../models/blog")
 const usermodel = require("../models/user")
+const chat_model = require("../models/chat")
+
 const bodyParser = require("body-parser")
 app.use(bodyParser.urlencoded({extended:true}))
-const {cur_user} = require("./username")
+const cur_user = require("./username.js")
 
 
 const findUser = async(cur_user)=> { 
@@ -23,8 +26,7 @@ catch(error){
 }
 const nav_send ={"name":"s","tag":"h"}
 route.get('/',isLoggedIn, (req,res,next) =>{
-// console.log(`INSIDE FUNCTION ${cur_user.cur_user}`)
-console.log(cur_user)
+console.log(`AND ... ${cur_user.e} and ${cur_user.b}`)
 // const user = findUser(cur_user.cur_user)
 // console.log(`user is ${user} ${user.username}`)
 // const nav_send2 = { "name": user.username, "tag": "5 star" };
@@ -59,7 +61,7 @@ route.get('/BlogDisplay',(req,res,next) =>{
 })
 route.get('/messages',(req,res,next) =>{
     
-    res.render('messages.ejs',nav_send);
+    res.render('messages.ejs',{name:"shreya",tag:"5",page_title:"Chat"});
 })
 route.get('/notifications',(req,res,next) =>{
     
@@ -109,7 +111,8 @@ route.get("/draft_edit/:id",async(req,res)=>{
 })
 route.get("/demoblog/:id",async(req,res)=>{
     let doc = await mymodel.findById(req.params.id)
-    res.render("demoblog",{blog:doc})
+    let user = await usermodel.findOne({email:"b@b.com"})
+    res.render("demoblog",{blog:doc, user:user,name:"shreya"})
 })
 route.post("/draft-edit",async(req,res)=>{
     console.log(req.body.id)
@@ -166,7 +169,86 @@ route.post("/post-blog",async(req,res)=>{
 res.send("done")
   
 })
+route.post("/search", async(req,res)=>{
+    
+    await usermodel.find({username:{$regex:req.body.data}},{username:1}).then(data=>{
+        res.send(data)
+    })
 
+})
+route.post("/get-room-id", async(req,res)=>{
+    console.log(req.body.r)
+    let roomID=""
+    let doc = await chat_model.find({sender:req.body.sender,receiver:req.body.r})
+    if(doc.length == 0){
+     roomID = customId({
+      sender: req.body.sender,
+      receiver: req.body.r
+    })
+    const data = new chat_model({
+        roomID:roomID,
+        sender:req.body.sender,
+      receiver: req.body.r,
+
+    })
+
+    data.save()
+}
+else{
+    roomID = doc.roomID
+}
+    res.send(roomID)
+    })
+    route.post("/get-my-senders", async(req,res)=>{
+        console.log(req.body.sender)
+     let doc = await chat_model.find({$or:[{sender:req.body.sender},{receiver:req.body.sender}]})
+    //  console.log(doc)
+     res.send(doc)
+    })
+    route.post("/get-chats", async(req,res)=>{
+     let doc = await chat_model.find({roomID:req.body.roomID})
+     doc.forEach(res=>{
+        res.chats.forEach(async(chat)=>{
+
+            await chat_model.findOneAndUpdate({roomID:req.body.roomID},
+                        {$set:{"chats.$[outer].isRead":"true"}},
+                        {"arrayFilters":[{"outer._id":chat._id}]}
+                        )
+           
+        })
+     })
+    
+      res.send(doc)
+    })
+    route.post("/send-msg", async(req,res)=>{
+        console.log(`isread is ${req.body.isRead}`)
+        let flag=true
+        if(req.body.isRead == 1){
+            flag=false
+        }
+        
+      await chat_model.findOneAndUpdate({roomID:req.body.roomID},{
+          
+          $push:{
+              chats:{username:req.body.sender,data:req.body.msg,isRead:flag}
+          }
+      })
+    })
+    route.post("/get-unread", async (req,res)=>{
+        let doc = await chat_model.find({
+            $or:[{sender:req.body.sender},{receiver:req.body.sender}], chats:{$elemMatch:{isRead:false}}
+        })
+        let rooms =[]
+        doc.forEach(doc=>{
+            doc.chats.forEach(chat=>{
+                if(chat.username != req.body.sender & chat.isRead != true){
+                    rooms.push(doc.roomID)
+                }
+            })
+        })
+        res.send(rooms)
+        console.log(rooms)
+    })
 // route.get('*',(req,res)=>{
 //     
 //     const nav_send_home=nav_send;

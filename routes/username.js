@@ -1,2 +1,2 @@
-const email = require("../app")
-module.exports ={cur_user: email}
+const email = require("../app.js")
+module.exports =email

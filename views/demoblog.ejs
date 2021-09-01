@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,14 +5,387 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet"
+    href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/highlight.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 </head>
 <body>
-    <h1><%= blog.title%></h1>
-<br>
-<div>
-    <%- blog.body %>
-</div>
+  
+    
+
+   <h2 style="text-align: center;"><%= blog.title %></h2>
+   <div style="text-align: center;">
+   <%- blog.body %>
+   </div>
+   <%if ((user.liked_blogs).includes(blog._id)){%>
+   <button id="<%= blog._id %>" class="active" name="blog_like" onclick="blog_likes(this)" style="background-color: white; border: 0;">
+    <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+
+    </button>
+    <%} else{%>
+        <button id="<%= blog._id %>" name="blog_like" onclick="blog_likes(this)" style="background-color: white; border: 0;">
+            <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+        
+            </button>
+    <%}%>
+        <label for="blog_like"><%= blog.blog_likes %></label>
+   <a href="/">go back</a>
+   <!-- Comments -->
+   <div style="text-align: left;margin: auto;" >
+       <label>Comments</label>
+        
+        <form onsubmit="return post_data(this)">
+            <input type="hidden" name="id" value="<%= blog._id %>">
+       <strong> <label id="name"><%= name %></label></strong>
+       <br>
+       <textarea rows="1" cols="10"  class="form-control" name="comment"></textarea><br>
+        <button type="submit">POST</button>
+    </form>
+    <% blog.comment = blog.comment.reverse() %>
+    <% let i=0 %>
+   <% (blog.comment).forEach(comment=>{%>
+    <!-- <img src="<%= comment.image%>" style="border-radius: 50%;"></img> -->
+    <strong><label><%= comment.email %></label></strong>
+    <textarea id="<%= comment._id %>comment" readonly><%= comment.data %></textarea>
+    <% if (user.comments_made.includes(comment._id)){%>
+        <button  id="<%= comment._id %>edit" onclick="edit_comment(this)">
+            <i class="fa fa-pencil" aria-hidden="true"></i></button>
+        <button data-cmd="<%= blog._id %>" data-com="<%= comment._id %>" onclick="delete_com(this)">
+            <i class="fa fa-trash-o" aria-hidden="true"></i></button>
+        <button data-cmd="<%= blog._id %>" id="<%= comment._id %>send" style="display: none;" onclick="post_edit_comment(this)">
+            <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+        <button id="<%= comment._id %>cancel" style="display:none;" onclick="cancel(this)">Cancel</button>
+        <%}%>
+<% if (user.liked_comments.includes(comment._id)){%>
+    
+        
+ <button data-cmd="<%= blog._id %>" name="<%= comment._id %>" class="active"
+     onclick="comment_likes(this)" style="background-color: white;border: 0;">
+    <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+</button>
+<label for="<%= comment._id %>" ><%= comment.likes %></label>
+<%} else{%>   
+    
+
+    <button data-cmd="<%= blog._id %>" name="<%= comment._id %>" class=""
+        onclick="comment_likes(this)" style="background-color: white;border: 0;">
+       <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+   </button>
+   <label for="<%= comment._id %>" ><%= comment.likes %></label>
+<%}%>
+    <br>
+    
+    <button class="reply" id="<%= blog.comment[i]._id %>" style="background-color: transparent;color: blue;">Reply</button>
+    <label>(<%= (blog.comment[i].reply).length%>)</label><br>
+    
+    <div id="<%= blog.comment[i]._id %>d"  style="display: none;">
+        <form onsubmit="return post_reply(this)" >
+
+            <input type="hidden" name="cid" value="<%= blog.comment[i]._id %>">
+            <textarea name="reply" 
+            cols="10" rows="2" placeholder="Say something.."></textarea>
+            <button type="submit">Post</button>
+        </form>
+        <!-- <% blog.comment[i].reply =(blog.comment[i].reply).reverse()%> -->
+        
+        <%  (blog.comment[i].reply).forEach(reply=>{ %>
+            <div id="REPLIES">
+            <!-- <img src="<%= reply.image %>" style="border-radius: 50%;"></img> -->
+            <label><%= reply.email %></label>
+            <textarea id="<%= reply._id %>comment" readonly><%= reply.data %></textarea>
+            <!-- comments_made -->
+            <% if (user.comments_made.includes(reply._id)){%>
+                <button  id="<%= reply._id %>edit" onclick="edit_comment(this)">
+                    <i class="fa fa-pencil" aria-hidden="true"></i></button>
+                    <button id="<%=reply._id %>"data-com="<%= comment._id %>"
+                        data-cmd="<%= blog._id %>" onclick="delete_reply(this)">
+                        <i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                <button data-cmd="<%= blog._id %>" id="<%= reply._id %>send" style="display: none;"
+                    data-com="<%= comment._id%>" onclick="post_edit_reply(this)">
+                    <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                <button id="<%= reply._id %>cancel" style="display:none;" onclick="cancel(this)">Cancel</button>
+
+            <%}%>
+            <%if(user.liked_comments.includes(reply._id)){%>
+                
+            <button data-cmd="<%= blog._id %>" data-com = "<%= blog.comment[i]._id %>"
+             id="l" name="<%= reply._id %>" onclick="change_likes(this)"
+             style="background-color: white;border: 0;">
+             <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+             </button>
+        <label for="<%= reply._id %>" id="l"><%= reply.likes %></label>
+        <br>
+        <%} else{%>
+            
+            
+            <button data-cmd="<%= blog._id %>" data-com = "<%= blog.comment[i]._id %>"
+                id="l" name="<%= reply._id %>" onclick="change_likes(this)"
+                style="background-color: white;border: 0;">
+                <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                </button>
+           <label for="<%= reply._id %>" id="l"><%= reply.likes %></label>
+           <br>
+            <%}%>
+            </div>
+        <%  }) %>  
+              
+    </div>
+    <% i++ }) %>
+   </div>
+   
+       
+   <script>
+
+const blog_likes = (btn)=>{
+const notliked ='<i class="fa fa-thumbs-o-up" aria-hidden="true"></i>'
+const liked = '<i class="fa fa-thumbs-up" aria-hidden="true"></i>'
+let value=0
+let flag=0
+  if(btn.className == "active"){
+      
+    btn.innerHTML = notliked
+    flag=0
+    value = +$("label[for='"+btn.name+"']").text() - +1
+       $("label[for='"+btn.name+"']").html(value)
+       btn.classList.remove("active")
+  }
+  else{
+    
+  btn.innerHTML = liked
+  flag=1
+  value = +$("label[for='"+btn.name+"']").text() + +1
+       $("label[for='"+btn.name+"']").html(value)
+       btn.classList.add("active")
+  }
+  const email = "<%=name %>"
+  $.ajax({
+      url:"/blog-like",
+      method:"POST",
+      data:{id:btn.id,email:email,flag:flag,value:value},
+      success:function(response){
+          alert(response)
+      }
+  })
+   
+}
+//DELETING COMMENT 
+   const delete_com = (btn)=>{
+       const blog_id = $(btn).attr('data-cmd')
+       const cid = $(btn).attr('data-com')
+       const email ="<%= name %>"
+       
+       $.ajax({
+           url:"/delete-com",
+           method:"POST",
+           data:{blog_id:blog_id,cid:cid,email:email},
+           success:function(response){
+               alert(response)
+                window.location.reload(true)
+           }
+       })
+   }
+   const delete_reply = (btn)=>{
+    const blog_id = $(btn).attr('data-cmd')
+       const cid = $(btn).attr('data-com')
+       const email ="<%= name %>"
+    const rid = btn.id
+       $.ajax({
+           url:"/delete-reply",
+           method:"POST",
+           data:{blog_id:blog_id,cid:cid,email:email,rid:rid},
+           success:function(response){
+               alert(response)
+               window.location.reload(true)
+
+
+           }
+       })
+   }
+   const cancel =(btn)=>{
+       let id = btn.id.replace("cancel","")
+       $("#"+id+"cancel").toggle()
+       $("#"+id+"send").toggle()
+       $("#"+id+"edit").toggle()
+       $("#"+id+"comment").attr('readonly',true)
+       window.location.reload(true)
+       
+   }
+   const edit_comment = (btn)=>{
+       let id = btn.id.replace("edit","")
+       btn.style.display = "none"
+       $("#"+id+"send").toggle()
+       $("#"+id+"cancel").toggle()
+       $("#"+id+"comment").attr('readonly',false)
+   }
+   const post_edit_comment = (btn)=>{
+       
+    let id = btn.id.replace("send","")
+
+    let t = $("#"+id+"comment").val()
+  const data = $(btn).attr("data-cmd")
+    id= id
+    $.ajax({
+        url:"/post-edited-comment",
+        method:"POST",
+        data:{cid:id,comment:t,data:data},
+        success:function(res){
+            alert(res)
+            window.location.reload(true)
+               
+
+        }
+    })
+   }
+   const post_edit_reply = (btn)=>{
+       
+       let id = btn.id.replace("send","")
+
+       let t = $("#"+id+"comment").val()
+     const data = $(btn).attr("data-cmd")
+     const cid = $(btn).attr("data-com")
+       id= id
+       $.ajax({
+           url:"/post-edited-reply",
+           method:"POST",
+           data:{rid:id,cid:cid,comment:t,data:data},
+           success:function(res){
+               alert(res)
+               window.location.reload(true)
+               
+
+           }
+       })
+      }
+    const post_data = (form)=>{
+        
+        $.ajax({
+            url: "/do-comment",
+            data:{comment: form.comment.value,id:form.id.value,
+                email:$("label[id='name']").text()
+            },
+            method: "POST",
+            success: function(response){
+                alert(response)
+                window.location.reload(true)
+               
+
+            }
+        })
+        return false
+    }
+    
+  let btn = document.getElementsByClassName("reply")
+  for(let i=0;i<btn.length;i++){
+      btn[i].addEventListener("click",()=>{
+          
+          $("#"+btn[i].id+"d").toggle()
+      })
+  }
+  const post_reply = (form)=>{
+        const email = "<%= name%>"
+        $.ajax({
+            url: "/do-reply",
+            data:{reply: form.reply.value,id:form.id.value,cid:form.cid.value,email:email},
+            method: "POST",
+            success: function(response){
+                alert(response)
+                window.location.reload(true)
+
+            }
+        })
+
+        return false
+    }
+    
+
+    const change_likes = (btn)=>{
+
+
+    const notliked ='<i class="fa fa-thumbs-o-up" aria-hidden="true"></i>'
+const liked = '<i class="fa fa-thumbs-up" aria-hidden="true"></i>'
+let value=0
+let liked_by_user=0
+if(btn.className == "active"){
+      console.log("ent")
+      liked_by_user=0
+    btn.innerHTML = notliked
+    value = +$("label[for='"+btn.name+"']").text() - +1
+       $("label[for='"+btn.name+"']").html(value)
+       btn.classList.remove("active")
+       console.log(`${value}`)
+  }
+  else{
+    
+  btn.innerHTML = liked
+  liked_by_user=1
+  value = +$("label[for='"+btn.name+"']").text() + +1
+       $("label[for='"+btn.name+"']").html(value)
+       btn.classList.add("active")
+  }
+
+
+      
+      const data = $(btn).attr("data-cmd")
+      const cid = $(btn).attr("data-com")
+        const email = "<%= name%>"
+
+      
+      $.ajax({
+        url: "/do-like",
+            data:{rid: btn.name,cid:cid,likes:value,data: data,
+            email:email,flag:liked_by_user},
+            method: "POST",
+            success: function(response){
+                alert(response)
+            }
+      })
+        
+       
+    }
+    //comment_likes
+   const comment_likes =(btn)=>{
+
+    const notliked ='<i class="fa fa-thumbs-o-up" aria-hidden="true"></i>'
+const liked = '<i class="fa fa-thumbs-up" aria-hidden="true"></i>'
+let value=0
+let flag=0
+  if(btn.className == "active"){
+      
+    btn.innerHTML = notliked
+    flag=0
+    value = +$("label[for='"+btn.name+"']").text() - +1
+       $("label[for='"+btn.name+"']").html(value)
+       btn.classList.remove("active")
+  }
+  else{
+    
+  btn.innerHTML = liked
+  flag=1
+  value = +$("label[for='"+btn.name+"']").text() + +1
+       $("label[for='"+btn.name+"']").html(value)
+       btn.classList.add("active")
+  }
+  const cid = btn.name
+  const data = $(btn).attr("data-cmd")
+  const email = "<%= name %>"
+  
+ 
+  $.ajax({
+        url: "/comments-like",
+            data:{cid: btn.name,likes:value,data: data, email:email,
+                 flag:flag},
+            method: "POST",
+            success: function(response){
+                alert(response)
+            }
+      })
+
+    
+   }
+   </script>
+
 </body>
 </html>
-        <!-- <body style="display:flex; justify-content: center;"> -->
-
