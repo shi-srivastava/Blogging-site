@@ -247,7 +247,7 @@ else{
             })
         })
         res.send(rooms)
-        console.log(rooms)
+        //console.log(rooms)
     })
 // route.get('*',(req,res)=>{
 //     
