@@ -36,6 +36,7 @@ width: 100px;
   Send</button>
 </div>
   <script>
+    let sender = "<%= username %>"
 const search =()=>{
        let search_div = document.getElementById("search")
        let search_item = $("input[name='r']").val()
@@ -89,13 +90,14 @@ const search =()=>{
       })
         
       const show_notif=()=>{
-        let sender = $("input[name='sender']").val()
+        
        $.ajax({
          url: "/get-unread",
          method:"POST",
          data:{sender:sender},
          success:function(rooms){
          rooms.forEach(room=>{
+           
            let btn = document.getElementById(room)
            if(btn){
              if(!btn.innerHTML.includes(" *")){
@@ -112,7 +114,7 @@ const search =()=>{
       const get_senders =()=>{
       document.getElementById("users").innerHTML =""
 
-    let sender = $("input[name='sender']").val()
+    
         $.ajax({
           url:"/get-my-senders",
           method:"POST",
@@ -123,9 +125,11 @@ const search =()=>{
           let btn = document.createElement('button')
             btn.id = res.roomID
             if(res.sender == sender){
+             
               btn.innerHTML =""+res.receiver
             }
             if(res.receiver == sender){
+              
               btn.innerHTML =""+res.sender
 
             }
@@ -195,11 +199,11 @@ const search =()=>{
 
       window.onload = get_senders()
     const create_new_chat =()=>{
-    let sender = $("input[name='sender']").val()
+    
 
       let receiver = $("input[name='r']").val()
       // alert(receiver)
-
+      alert(sender)
       $.ajax({
         url:"/get-room-id",
         method:"POST",
@@ -213,7 +217,7 @@ const search =()=>{
     }
 
     const on_post =(btn)=>{
-      let sender = $("input[name='sender']").val()
+      
       let receiver = $("input[name='r']").val()
       let msg = $("input[name='input msg']").val()
      let isRead = 0
@@ -260,7 +264,7 @@ const search =()=>{
       let send_btn = document.getElementsByClassName("send")
 
       let btn = send_btn[0]
-      let sender = $("input[name='sender']").val()
+      
       let i=0
       $.ajax({
         url:"/get-chats",
