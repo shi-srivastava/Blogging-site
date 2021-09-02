@@ -257,7 +257,7 @@ else{
             })
         })
         res.send(rooms)
-        console.log(rooms)
+        //console.log(rooms)
     })
     //COMMENTS AND REPLIES
     route.post("/do-comment",async (req,res)=>{
