@@ -43,6 +43,7 @@
     
 </div>
 <% } %>
+
 <% if(blogs){%>
     <%blogs.forEach(blog=>{%>
 
@@ -56,6 +57,53 @@
   </div>
   
   <%})}%>
+
+  <% if(blogs){%>
+    <%blogs.forEach(blog=>{%>
+
+  <div class="card" id="<%= blog._id %>">
+    <%= blog.title %>
+    
+      <p><%= blog._id %></p>
+      <a href="/demoblog/<%= blog._id %>">View</a>
+      <ins><%= blog.score %></ins>
+      <div class="blog-container" style="  display: flex;align-items:center;margin-top:2%;margin-bottom:3%;margin-left:4%;margin-right:-5%;background-color:rgb(203, 213, 196) ">
+        <div class="blog-text" style="width:80%;margin-left:1%">
+            <h1><a href="#" style="text-decoration: none;color:black"><%= blog.title %></a></h1>
+            <p style="opacity: 0.8; color:rgba(54, 50, 50, 0.898);">
+                This is really Lorem ipsum dolor sit amet, consect.This is really Lorem ipsum dolor sit amet, consect.
+                This is really Lorem ipsum dolor sit amet, consect.This is really Lorem ipsum dolor sit amet, consect.
+                This is really Lorem ipsum dolor sit amet, consect.This is really Lorem ipsum dolor sit amet, consect.
+                This is really Lorem ipsum dolor sit amet, consect.This is really Lorem ipsum dolor sit amet, consect.
+                This is really Lorem ipsum dolor sit amet, consect.This is really Lorem ipsum dolor sit amet, consect.
+                This is really Lorem ipsum dolor sit amet, consect.This is really Lorem ipsum dolor sit amet, consect.
+                This is really Lorem ipsum dolor sit amet, consect.This is really Lorem ipsum dolor sit amet, consect.
+                           
+            </p>
+            <span>3 weeks ago by <span style="color:red">dragslayer 999</span></span>
+            <span style="float:right; padding-right: 50%">
+                <span class="tiny material-icons" style="vertical-align:middle;font-size:20px">
+                    visibility
+                </span>
+                    by 68 &emsp;&emsp;
+                    <span class="material-icons" style="vertical-align:middle;font-size:20px;">
+                        textsms
+                    </span>
+                    13
+            </span>
+        </div>
+        <div class="blog-image" style="margin-left:3%; flex-basis:10%">
+          <img src="https://i.pinimg.com/originals/26/ea/fc/26eafc0b14488fea03fa8fa9751203ff.jpg" style="max-width:100%" class="blog-image-right">
+        </div>
+        
+    </div>
+    
+  </div>
+  
+  <%})}%>
+
+
+
   <button onclick="get_trend()">this</button>
   <script>
      const search =()=>{
