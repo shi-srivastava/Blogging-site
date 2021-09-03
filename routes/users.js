@@ -32,9 +32,11 @@ router.get('/login', (req, res) => {
 router.post('/login', passport.authenticate('local', {
     failureFlash: true,
     failureRedirect: '/login'
-}), (req, res) => {
+}), async (req, res) => {
     const redirectUrl = req.session.returnTo || '/';
     delete req.session.returnTo;
+    console.log(req.body)
+    req.session.cookie.user = await User.findOne({email:req.body.email})
     res.redirect(redirectUrl);
 });
 
