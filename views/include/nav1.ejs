@@ -22,7 +22,6 @@
 <body>
 <div class="vertical-nav narrow hover" style="position:fixed">
     <div class="branding">
-        
         <div class="symbol">
             <a href="/">
             <svg width="37px" height="36px" viewBox="0 0 37 36" version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -177,6 +176,7 @@
                 <div class="company"><%= tag %></div>
                 
             </div>
+            <button id="sign-out">Sign Out</button>
         </div>
     </a>
 </div>
@@ -186,15 +186,16 @@
             <%= page_title %>
         </div>
     </div>
-    <div class="top-bar-center">
-        <div class="search-bar">
+    <!-- <div class="top-bar-center"> -->
+        <div class="search-bar top-bar-center">
             <div class="search">
-                <span><i class="material-icons supervisor-icon">supervisor_account</i></span>
-                <input type="text" placeholder="What's on your mind?">
+                <!-- <span><i class="material-icons supervisor-icon">supervisor_account</i></span> -->
                 <button style="cursor:pointer; background-color:white; border:none"><span><i class="material-icons search-icon">search</i></span></button>
+                <input type="text" placeholder="What's on your mind?">
+
             </div>
         </div>
-    </div>
+    <!-- </div> -->
     <div class="right">
         <div class="apps" style="display:flex; align-items:center;">
             <a href="/create-blog" class="nav-item" title="Create a new blog">
@@ -205,8 +206,5 @@
         </div>
     </div>
 </div>
-
-
-    
 
 <div class="content" id="move_when_expanded_content">
