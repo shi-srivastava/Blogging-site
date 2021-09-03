@@ -121,9 +121,9 @@ io.on("connection",(socket)=>{
    
        socket.to(data.roomID).emit("express-chat",(data))
      })
-     socket.on('disconnect',()=>{
-         console.log("disconnected")
-     })
+    //  socket.on('disconnect',()=>{
+    //      console.log("disconnected")
+    //  })
      
    
    })

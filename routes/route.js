@@ -34,8 +34,15 @@ route.get('/login',isLoggedIn,(req,res,next)=>{
 route.get('/',isLoggedIn, async(req,res,next) =>{
 
 cur_user = req.cookies['email']
+await mymodel.find().sort({score:-1}).then(data=>{
+    res.render("home",{name:cur_user,page_title:"Home",tag:"5 star",blogs:data})
+})
 
-res.render("home",{name:cur_user,page_title:"Home",tag:"5 star"})
+})
+route.get("/get-trending",async(req,res)=>{
+    await mymodel.find().sort({score:-1}).then(data=>{
+        res.send(data)
+    })
 })
 route.get('/temp', (req,res,next) =>{
     
@@ -185,6 +192,29 @@ route.post("/search", async(req,res)=>{
         res.send(data)
     })
 
+})
+route.post("/search-on-homepage", async(req,res)=>{
+    if((req.body.filter)=="blog"){
+        // console.log("dfkjnlfnd")
+    await mymodel.find({title:{$regex:req.body.data}},{title:1}).then(data=>{
+        res.send(data)
+    })
+}
+else{
+    await usermodel.find({username:{$regex:req.body.data}},{username:1}).then(data=>{
+        res.send(data)
+    })
+}
+})
+route.get("/profile/:id", async(req,res)=>{
+    let user = await usermodel.findById(req.params.id)
+    try{
+        let doc = await mymodel.find({email:user.email,is_draft:"n"})
+    res.render('profile',{blog:doc,name:cur_user,tag:"jnln",page_title:"profile"});
+        }
+        catch(error){
+    console.log(error);
+        }
 })
 route.post("/get-room-id", async(req,res)=>{
     console.log(req.body.r)
