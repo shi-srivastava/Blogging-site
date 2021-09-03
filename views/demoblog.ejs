@@ -111,7 +111,8 @@
             <%}%>
             <%if(user.liked_comments.includes(reply._id)){%>
                 
-            <button data-cmd="<%= blog._id %>" data-com = "<%= blog.comment[i]._id %>"
+      
+                <button data-cmd="<%= blog._id %>" data-com = "<%= blog.comment[i]._id %>"
              id="l" name="<%= reply._id %>" onclick="change_likes(this)"
              style="background-color: white;border: 0;">
              <i class="fa fa-thumbs-up" aria-hidden="true"></i>
@@ -160,7 +161,8 @@ let flag=0
        $("label[for='"+btn.name+"']").html(value)
        btn.classList.add("active")
   }
-  const email = "<%=name %>"
+  const email = "<%= email %>"
+  alert(flag)
   $.ajax({
       url:"/blog-like",
       method:"POST",

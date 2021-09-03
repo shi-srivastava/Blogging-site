@@ -43,13 +43,222 @@
     
 </div>
 <% } %>
-<div class="pagination-home-page" style="text-align: center;">
-    <a href="#!" style="background-color: yellow;"><i class="material-icons icons-middle-align">chevron_left</i></a>
-    <a href="#!" class="pagination-page-active">1</a>
-    <a href="#!">2</a>
-    <a href="#!">3</a>
-    <a href="#!">4</a>
-    <a href="#!">5</a>
-    <a href="#!" style="background-color: yellow;"><i class="material-icons icons-middle-align">chevron_right</i></a>
-  </ul>
+
+<% if(blogs){%>
+    <%blogs.forEach(blog=>{%>
+
+  <div class="card" id="<%= blog._id %>">
+    <%= blog.title %>
+    
+      <p><%= blog._id %></p>
+      <a href="/demoblog/<%= blog._id %>">View</a>
+      <ins><%= blog.score %></ins>
+    
+  </div>
+  
+  <%})}%>
+
+  <% if(blogs){%>
+    <%blogs.forEach(blog=>{%>
+
+  <div class="card" id="<%= blog._id %>">
+    <%= blog.title %>
+    
+      <p><%= blog._id %></p>
+      <a href="/demoblog/<%= blog._id %>">View</a>
+      <ins><%= blog.score %></ins>
+      <div class="blog-container" style="  display: flex;align-items:center;margin-top:2%;margin-bottom:3%;margin-left:4%;margin-right:-5%;background-color:rgb(203, 213, 196) ">
+        <div class="blog-text" style="width:80%;margin-left:1%">
+            <h1><a href="#" style="text-decoration: none;color:black"><%= blog.title %></a></h1>
+            <p style="opacity: 0.8; color:rgba(54, 50, 50, 0.898);">
+                This is really Lorem ipsum dolor sit amet, consect.This is really Lorem ipsum dolor sit amet, consect.
+                This is really Lorem ipsum dolor sit amet, consect.This is really Lorem ipsum dolor sit amet, consect.
+                This is really Lorem ipsum dolor sit amet, consect.This is really Lorem ipsum dolor sit amet, consect.
+                This is really Lorem ipsum dolor sit amet, consect.This is really Lorem ipsum dolor sit amet, consect.
+                This is really Lorem ipsum dolor sit amet, consect.This is really Lorem ipsum dolor sit amet, consect.
+                This is really Lorem ipsum dolor sit amet, consect.This is really Lorem ipsum dolor sit amet, consect.
+                This is really Lorem ipsum dolor sit amet, consect.This is really Lorem ipsum dolor sit amet, consect.
+                           
+            </p>
+            <span>3 weeks ago by <span style="color:red">dragslayer 999</span></span>
+            <span style="float:right; padding-right: 50%">
+                <span class="tiny material-icons" style="vertical-align:middle;font-size:20px">
+                    visibility
+                </span>
+                    by 68 &emsp;&emsp;
+                    <span class="material-icons" style="vertical-align:middle;font-size:20px;">
+                        textsms
+                    </span>
+                    13
+            </span>
+        </div>
+        <div class="blog-image" style="margin-left:3%; flex-basis:10%">
+          <img src="https://i.pinimg.com/originals/26/ea/fc/26eafc0b14488fea03fa8fa9751203ff.jpg" style="max-width:100%" class="blog-image-right">
+        </div>
+        
+    </div>
+    
+  </div>
+  
+  <%})}%>
+
+
+
+  <button onclick="get_trend()">this</button>
+  <script>
+     const search =()=>{
+       let search_div = document.getElementById("search")
+       let search_item =""+ $("input[name='search_text']").val()
+       let search_select =""+ $("select[name='search_select']").val()
+      
+       $.ajax({
+         url:"/search-on-homepage",
+         method:"POST",
+         data:{data:search_item,filter:search_select},
+         success:function(response){
+          if(response!=null){
+            if((search_select == "blog")){
+            response.forEach(res=>{
+              let anchor = document.getElementsByTagName('a')
+              let flag =0
+              for(let i=0;i<anchor.length;i++){
+                if(anchor[i].innerText == res.title){
+                  flag=1
+                }
+              }if(flag!=1){
+               $("#search").append(
+                 $(document.createElement('a')).prop({
+                   target:'',
+                   href:'/demoblog/'+res._id,
+                   innerText: res.title
+                 })
+               ).append(
+                 $(document.createElement('br'))
+               )
+              }
+            })
+          }
+          else{
+            response.forEach(res=>{
+              let anchor = document.getElementsByTagName('a')
+              let flag =0
+              for(let i=0;i<anchor.length;i++){
+                if(anchor[i].innerText == res.username){
+                  flag=1
+                }
+              }
+              if(flag!=1){
+              $("#search").append(
+                $(document.createElement('a')).prop({
+                  target:'',
+                  href:'/profile/'+res._id,
+                  innerText: res.username
+                })
+              ).append(
+                $(document.createElement('br'))
+              )
+              }
+               
+           })
+          }
+          }
+          if( search_item.length ==0){
+            search_div.innerHTML =''
+          }
+         }
+       })
+     }
+    
+    const get_trend =()=>{
+      let output=0
+      
+      $.ajax({
+        url: "/get-trending",
+        method:"GET",
+        success:function(data){
+          for(let k=0;k<data.length;k++){
+            console.log(data[k]._id,data[k].title)
+            output = find_elem(data[k]._id,k,data[k].title)
+            console.log(output)
+         if(output>0){
+           break
+         }
+          }
+       
+       
+
+        }
+      })
+      // demo.innerHTML += "<p>done</p>"
+    }
+     setInterval(get_trend,3000)
+ 
+  
+
+const find_elem =(id,pos,title)=>{
+  let made_changes =0
+  var other_height=[]
+  var o=[]
+  let cards = document.querySelectorAll(".card")
+  
+  cards.forEach(card=>{
+    var a =($("#"+card.id).offset().top)
+    other_height.push(a)
+    o.push(a)
+  }) 
+      
+var top = $("#"+id).offset().top
+let i=0
+  
+let j=0
+i=top -o.sort((a,b)=>a-b)[pos]
+
+console.log(`top ${top} sub ${o[pos]} i ${i} title ${title}`)
+if(i>0){
+  console.log(`${title} is going up`)
+  cards.forEach(card=>{
+        
+    if(other_height[j]>=(top-i)&& top>other_height[j]){
+    $("#"+card.id).animate({
+      "top":"+=120px"
+    },"slow")
+  }
+  j++
+  
+  })
+$("#"+id).animate({ 
+  "top":"-="+i+"px"
+},"slow")
+made_changes++
+}
+j=0
+if(i<0){
+  i=Math.abs(o[pos] - top)
+  console.log(`${title} will go down i ${i}`)
+
+  cards.forEach(card=>{
+    
+if(other_height[j]>(top) && other_height[j]<=(top+i)){
+  console.log(`${card.id}`)
+  
+$("#"+card.id).animate({
+  "top":"-=120px"
+},"slow")
+
+}j++
+})
+
+console.log(`i is ${i} id ${id} `)
+$("#"+id).animate({ 
+"top":"+="+i+"px"
+},"slow")
+made_changes++
+}
+return made_changes
+    }
+    
+    
+
+  </script>
+
 <%- include('include/end.ejs')%>
