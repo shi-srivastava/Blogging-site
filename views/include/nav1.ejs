@@ -189,7 +189,7 @@
             </div>
         </a>
     </div>
-    <div class="top-bar" id="move_when_expanded_top_bar" style="margin-left:1%;position:fixed;width:93%;z-index:2">
+    <div class="top-bar" id="move_when_expanded_top_bar" style="position:fixed;width:100%;z-index:2;">
         <div class="left">
             <div class="page-title">
                 <%= page_title %>
@@ -197,9 +197,8 @@
         </div>
         <div class="top-bar-center">
             <div class="search-bar">
-                <div class="search">
-                    <button style="cursor:pointer; background-color:white; border:none"><span><i
-                        class="material-icons search-icon">search</i></span></button>
+                <div class="search" style="display:flex;">
+                    <button style="cursor:pointer; background-color:white; border:none"><span><i class="material-icons search-icon">search</i></span></button>
                     <input type="text" placeholder="What's on your mind?" name="search_text" onkeyup="search()">
                     <div id="search"></div>
                     <select name="search_select"  style="float:right;">

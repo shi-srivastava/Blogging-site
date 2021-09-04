@@ -1,3 +1,4 @@
+
 body {
     background: #EFF2F3;
     margin: 0 0 0 64px;
@@ -64,6 +65,7 @@ body {
   .top-bar {
     height: 64px;
     background: #ffffff;
+    
     display: flex;
     justify-content: space-between;
     align-items: stretch;
