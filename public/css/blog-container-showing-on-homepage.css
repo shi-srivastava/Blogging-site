@@ -2,3 +2,58 @@
     {    
         transform: scale(1.5);
     }
+
+#home-blogs {
+    text-align:center;
+    margin:20px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.blog-container {
+    text-align:initial;
+    position:relative;
+    display: inline-block;
+    padding:175px 18px 10px 18px;
+    align-items:center;
+    margin:3% 2%;
+    border-radius: 48px;
+    width:380px;
+    height:400px;
+    background: #f2f2f2;
+    box-shadow: rgb(222, 222, 222) 14px 14px 28px 0px,rgb(255, 255, 255) -14px -14px 28px 0px;
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover;
+}
+
+.blog-container:hover {
+    transform: scale(1.02);
+}
+
+.blog-text p:first-of-type {
+    display:
+        color: grey; 
+        overflow: hidden; 
+        /* white-space: nowrap; */
+        text-overflow:ellipsis;
+        width:320px;
+        height: 50px;
+        line-height: 16px; 
+        position: relative;
+        word-wrap: break-word;
+      }
+      
+.blog-text p:first-of-type::after { content: "..."; position :absolute; right: -2px; bottom: 2px;}
+
+
+#blog-link {
+        position:absolute; 
+        width:100%;
+        height:100%;
+        top:0;
+        left: 0;     
+        z-index: 1;     
+        /* fixes overlap error in IE7/8, 
+           make sure you have an empty gif */
+        /* background-image: url('empty.gif'); */
+}
