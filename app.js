@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const socket = require("socket.io")
 const app = express();
+const moment = require("moment")
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
@@ -118,8 +119,10 @@ io.on("connection",(socket)=>{
        socket.emit("get-clients-no",clientNumber)
    })
      socket.on("express-chat",data=>{
-   
-       socket.to(data.roomID).emit("express-chat",(data))
+         
+        let d = new Date()
+        let s = ""+d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear()
+       socket.to(data.roomID).emit("express-chat",{data:data, t:s+" "+d.toLocaleTimeString()})
      })
     //  socket.on('disconnect',()=>{
     //      console.log("disconnected")

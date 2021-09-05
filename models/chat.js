@@ -7,7 +7,8 @@ const chat_schema = mongoose.Schema({
     chats:[{
       username:{type:String},
       data:{type:Object},
-      isRead:{type:Boolean}
+      isRead:{type:Boolean},
+      date:{type:String}
     }]
   })
 

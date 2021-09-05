@@ -7,7 +7,7 @@ const customId = require("custom-id")
 const mymodel = require("../models/blog")
 const usermodel = require("../models/user")
 const chat_model = require("../models/chat")
-var cookieParser = require('cookie-parser');
+const moment = require("moment")
 
 const bodyParser = require("body-parser")
 app.use(bodyParser.urlencoded({extended:true}))
@@ -28,6 +28,7 @@ catch(error){
 }
 const nav_send ={"name":"s","tag":"h"}
 route.get('/login',isLoggedIn,(req,res,next)=>{
+    res.clearCookie("email")
    res.render("login_signup")
 })
 
@@ -189,6 +190,7 @@ res.send("done")
 route.post("/search", async(req,res)=>{
     
     await usermodel.find({username:{$regex:req.body.data}},{username:1}).then(data=>{
+       
         res.send(data)
     })
 
@@ -219,7 +221,9 @@ route.get("/profile/:id", async(req,res)=>{
 route.post("/get-room-id", async(req,res)=>{
     console.log(req.body.r)
     let roomID=""
-    let doc = await chat_model.find({sender:req.body.sender,receiver:req.body.r})
+    let user = await usermodel.find({username:req.body.r})
+    if(user.length >0){
+    let doc = await chat_model.find({$or:[{sender:req.body.sender,receiver:req.body.r},{sender:req.body.r,receiver:req.body.sender}]})
     if(doc.length == 0){
      roomID = customId({
       sender: req.body.sender,
@@ -238,11 +242,14 @@ else{
     roomID = doc.roomID
 }
     res.send(roomID)
+}
     })
+    
     route.post("/get-my-senders", async(req,res)=>{
         console.log(req.body.sender)
      let doc = await chat_model.find({$or:[{sender:req.body.sender},{receiver:req.body.sender}]})
     //  console.log(doc)
+    
      res.send(doc)
     })
     route.post("/get-chats", async(req,res)=>{
@@ -266,13 +273,17 @@ else{
         if(req.body.isRead == 1){
             flag=false
         }
+        let d = new Date()
+        let s = ""+d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear()
         
+        // let flag = false
       await chat_model.findOneAndUpdate({roomID:req.body.roomID},{
           
           $push:{
-              chats:{username:req.body.sender,data:req.body.msg,isRead:flag}
+              chats:{username:req.body.sender,data:req.body.msg,isRead:flag,date:s+" "+d.toLocaleTimeString()}
           }
       })
+      res.send("")
     })
     route.post("/get-unread", async (req,res)=>{
         let doc = await chat_model.find({
