@@ -1,14 +1,15 @@
+let sender = $("input[name='sender']").val()
 const search =()=>{
-    let search_div = document.getElementById("search")
+    let search_div = document.getElementById("receiver_search")
     let search_item = $("input[name='r']").val()
-   // alert(search_select)
+  //  alert(search_item)
     $.ajax({
       url:"/search",
       method:"POST",
       data:{data:search_item},
       success:function(response){
+        
        if(response!=null){
-         
          response.forEach(res=>{
            let anchor = document.getElementsByClassName('user-suggestion')
            let flag =0
@@ -17,16 +18,16 @@ const search =()=>{
                flag=1
              }
            }
-           if(flag!=1){
+           if(flag!=1 && res.username!=sender){
           let btn = document.createElement('button')
           btn.classList.add("user-suggestion")
           btn.innerHTML = res.username
           btn.onclick =function(){
             document.getElementById("r").value = btn.innerHTML
           }
-          $("#search").append(btn)
+          $("#receiver_search").append(btn)
           let linebreak = document.createElement('br')
-          $("#search").append(linebreak)
+          $("#receiver_search").append(linebreak)
 
 
            }
@@ -47,7 +48,7 @@ const search =()=>{
    let chat_div = document.getElementById("chat")
    socket.on("express-chat",data=>{
      
-    chat_div.innerHTML += '<p>'+data.msg +'</p>'
+    chat_div.innerHTML += '<p>'+data.data.msg +'</p><p><sub>'+data.t+'</sub></p>'
    })
      
    const show_notif=()=>{
@@ -60,8 +61,9 @@ const search =()=>{
       rooms.forEach(room=>{
         let btn = document.getElementById(room)
         if(btn){
-          if(!btn.innerHTML.includes(" *")){
+          if(!btn.innerHTML.includes(" *") && $("#"+room).attr("class") != "active_room"){
             btn.innerHTML += " *"
+            
           }
         }
       })
@@ -74,7 +76,7 @@ const search =()=>{
    const get_senders =()=>{
    document.getElementById("users").innerHTML =""
 
- let sender = $("input[name='sender']").val()
+
      $.ajax({
        url:"/get-my-senders",
        method:"POST",
@@ -84,6 +86,7 @@ const search =()=>{
          if(res.roomID!=undefined){
        let btn = document.createElement('button')
          btn.id = res.roomID
+         
          if(res.sender == sender){
            btn.innerHTML =""+res.receiver
          }
@@ -129,10 +132,10 @@ const search =()=>{
        for(let i=0;i<msg.chats.length;i++){
          if(msg.chats[i].data != undefined){
           if(msg.chats[i].username == sender){
-         chat_div.innerHTML += '<p style="margin-left:100px;">'+msg.chats[i].data+'</p>'
+         chat_div.innerHTML += '<p style="margin-left:100px;">'+msg.chats[i].data+'</p><p style="margin-left:100px;"><sub>'+msg.chats[i].date+'</sub></p>'
         }
         if(msg.chats[i].username != sender){
-         chat_div.innerHTML += '<p >'+msg.chats[i].data+'</p>'
+         chat_div.innerHTML += '<p >'+msg.chats[i].data+'</p><sub>'+msg.chats[i].date+'</sub></p>'
 
         }
        }
@@ -157,10 +160,10 @@ const search =()=>{
 
    window.onload = get_senders()
  const create_new_chat =()=>{
- let sender = $("input[name='sender']").val()
+ 
 
    let receiver = $("input[name='r']").val()
-   // alert(receiver)
+   
 
    $.ajax({
      url:"/get-room-id",
@@ -175,54 +178,35 @@ const search =()=>{
  }
 
  const on_post =(btn)=>{
-   let sender = $("input[name='sender']").val()
-   let receiver = $("input[name='r']").val()
+  
+   let receiver = $("label[for='receiver']").html()
    let msg = $("input[name='input msg']").val()
-  let isRead = 0
+  let isRead = 0,val=0
    socket.emit("get-clients-no",btn.id)
-   socket.on("get-clients-no",data=>{
-     if(data==1){
-     $.ajax({
-     url:"/send-msg",
-     method:"POST",
-     data:{msg:msg,sender:sender,roomID:btn.id, receiver:receiver,isRead:1},
-     success:function(){
-       alert("done "+isRead)
-     }
+   socket.once("get-clients-no",data=>{
+    $.ajax({
+      url:"/send-msg",
+      method:"POST",
+      data:{msg:msg,sender:sender,roomID:btn.id, receiver:receiver,isRead:data},
+      success:function(){
+        // alert("done "+isRead)
+      }
+    })
    })
-     }
-     else{
-       $.ajax({
-     url:"/send-msg",
-     method:"POST",
-     data:{msg:msg,sender:sender,roomID:btn.id, receiver:receiver,isRead:0},
-     success:function(){
-       alert("done "+isRead)
-       
-     }
-   })
-     }
-   })
+  
    
-   
-   // $.ajax({
-   //   url:"/send-msg",
-   //   method:"POST",
-   //   data:{msg:msg,sender:sender,roomID:btn.id, receiver:receiver,isRead:isRead},
-   //   success:function(){
-       
-   //   }
-   // })
    
    socket.emit("express-chat",{roomID:btn.id,msg:msg})
-   
-   chat_div.innerHTML += '<p style="margin-left:100px;">' +msg+'</p>'
+   let d = new Date()
+   let s = ""+d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear()
+
+   chat_div.innerHTML += '<p style="margin-left:100px;">' +msg+'</p><p style="margin-left:100px;"><sub>'+s+' '+d.toLocaleTimeString()+'</sub></p>'
  }
  const show_chat =()=>{
    let send_btn = document.getElementsByClassName("send")
 
    let btn = send_btn[0]
-   let sender = $("input[name='sender']").val()
+  
    let i=0
    $.ajax({
      url:"/get-chats",
@@ -233,10 +217,10 @@ const search =()=>{
        for(let i=0;i<msg.chats.length;i++){
          if(msg.chats[i].data != undefined){
           if(msg.chats[i].username == sender){
-         chat_div.innerHTML += '<p style="margin-left:100px;">'+msg.chats[i].data+'</p>'
+            chat_div.innerHTML += '<p style="margin-left:100px;">'+msg.chats[i].data+'</p><p style="margin-left:100px;"><sub>'+msg.chats[i].date+'</sub></p>'
         }
         if(msg.chats[i].username != sender){
-         chat_div.innerHTML += '<p >'+msg.chats[i].data+'</p>'
+         chat_div.innerHTML += '<p >'+msg.chats[i].data+'</p><sub>'+msg.chats[i].date+'</sub></p>'
 
         }
        }
