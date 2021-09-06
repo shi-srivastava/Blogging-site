@@ -1,6 +1,15 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const socket = require("socket.io")
 const app = express();
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
+
+const server = app.listen(3000, () => {
+    console.log('At your service!!')
+})
+const io = socket(server)
+
 
 const path = require('path');
 const ejsMate = require('ejs-mate');
@@ -15,8 +24,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const User = require('./models/user');
 const Blog = require('./models/blog');
 
-const userRoutes = require('./routes/users');
-const mainRoute = require('./routes/route');
+let cur_user="";
 
 mongoose.connect('mongodb://localhost:27017/blogg', {
     useNewUrlParser: true,
@@ -55,6 +63,15 @@ app.use(flash());
 
 app.use(passport.initialize());
 app.use(passport.session());
+app.get("/favicon.ico", (req, res) => {
+    res.sendStatus(404);
+});
+const userRoutes = require('./routes/users');
+   const mainRoute = require('./routes/route');
+   passport.serializeUser((user, done) => done(null, user._id))
+   passport.deserializeUser(async (id, done) => {
+       done(null, User.findById(id))
+   })
 passport.use(new LocalStrategy({
     usernameField: 'email'
 },
@@ -65,7 +82,9 @@ passport.use(new LocalStrategy({
         }
         try {
             if (await bcrypt.compare(password, user.password)) {
+                
                 console.log('success')
+                // send_data(cur_user)
                 return done(null, user)
             } else {
                 return done(null, false, {
@@ -77,10 +96,9 @@ passport.use(new LocalStrategy({
         }
     }
 ));
-passport.serializeUser((user, done) => done(null, user._id))
-passport.deserializeUser(async (id, done) => {
-    done(null, User.findById(id))
-})
+const send_data=(a)=>{
+    console.log(`VAL IS ${cur_user}`)
+    module.exports={e:a,b:"yo"}
 
 app.use('/', userRoutes);
 app.use(mainRoute);
@@ -106,244 +124,40 @@ app.use(mainRoute);
 // app.get("/new",(req,res)=>{
 //     res.render("new")
 // })
+}
+// module.exports = {e:cur_user,b:"yo"}
 
-// app.post("/output",async(req,res)=>{
-   
-//     const data = new mymodel({
-        
-            
-//             title: req.body.title,
-
-//             body:req.body.editor,
-        
-        
-//     })
-//     await data.save();
-//     res.redirect("/");
-  
-// })
-// app.get("/blog/:name/:image/:id",async (req,res)=>{
-//      let doc = await mymodel.findById(req.params.id)
-//     let uid = await usermodel.find({email:req.params.name}) 
-//     let user = await usermodel.findById({_id:uid[0]._id})
-//     res.render("blog",{blog:doc,user:user,name:req.params.name,image:req.params.image})
-// })
-
-// app.post("/do-comment",async (req,res)=>{
-    
-//     console.log(req.body.comment)
-//  let doc=await mymodel.findOneAndUpdate({_id: req.body.id},
-//     {
-//        $push:{
-//         comment:{
-//             email:req.body.email,
-//             data : req.body.comment
-//         }
-//        }
-//     },
-//     {new:true})
-//     let score = doc.score
-//  await mymodel.findOneAndUpdate(
-//         {  _id: req.body.id },
-//         {$set:{"score":(score+1)*0.2 }},
-        
-//      )
-//     await usermodel.findOneAndUpdate({email:req.body.email},
-//         {
-//             $push:{
-//                 comments_made:doc.comment[doc.comment.length-1]._id
-//             }
-//         })
-     
-//    res.send(`done`)
-
-// })
-// app.post("/do-reply",async (req,res)=>{
-    
-//     console.log(`${req.body.cid} and ${req.body.reply}`)
-//     let doc =await mymodel.findOneAndUpdate({"comment._id": req.body.cid},
-//        {
-//          $push:{
-//              "comment.$.reply":{
-//                  data: req.body.reply,
-//                  email:req.body.email
-//              }
-//         } },
-//         {new:true})
-
-//         let score = doc.score
-//         await mymodel.findOneAndUpdate(
-//             {  _id: req.body.id },
-//             {$set:{"score":(score+1)*0.2 }},
-            
-//          )
-        
-//         let i=0
-//         doc.comment.every(com=>{
-            
-//             if(com._id == req.body.cid){
-//                 return i
-//             }
-//             i++
-//         })
-        
-//        await usermodel.findOneAndUpdate({email:req.body.email},
-//         {
-//             $push:{
-//                 comments_made:doc.comment[i].reply[doc.comment[i].reply.length - 1]._id
-//             }
-//         })
-//         res.send("replied")
-// })
-// app.post("/do-like",async(req,res)=>{
-//   console.log("like")
-
-//      await mymodel.findOneAndUpdate(
-//         {  _id: req.body.data },
-//         {$set:{"comment.$[outer].reply.$[inner].likes":req.body.likes}},
-//         {"arrayFilters":[{"outer._id":req.body.cid},{"inner._id":req.body.rid}]}
-//      )
-     
-//      if(req.body.flag==1){
-//          console.log("flag is 1")
-//         await usermodel.findOneAndUpdate({email : req.body.email},
-//             {$push:{"liked_comments":req.body.rid
-                     
-//                 }})
-//          }
-//     else{
-//         await usermodel.findOneAndUpdate({email : req.body.email},
-//             {$pull:{"liked_comments":req.body.rid
-                    
-//                 }})
-//     }
-//         res.send("likes")
-
-// })
-// app.post("/comments-like",async(req,res)=>{
-
-//     console.log(req.body.flag)
-//     await mymodel.findOneAndUpdate({_id:req.body.data},
-//         {$set:{"comment.$[outer].likes":req.body.likes}},
-//         {"arrayFilters":[{"outer._id":req.body.cid}]}
-//         )
-//         if(req.body.flag==1){
-//         await usermodel.findOneAndUpdate({email:req.body.email},
-//             {$push:{
-//                      liked_comments:req.body.cid
-//             }})
-//         }
-        
-//         else{
-//             await usermodel.findOneAndUpdate({email:req.body.email},
-//                 {$pull:{
-//                          liked_comments:req.body.cid
-//                 }})
-//         }
-       
-//         res.send("comment liked")
-// })
-
-// app.post("/post-edited-comment", async(req,res)=>{
-   
-    
-//     await mymodel.findOneAndUpdate({_id:req.body.data},
-//         {$set:{"comment.$[outer].data":req.body.comment}},
-//         {"arrayFilters":[{"outer._id":req.body.cid}]}
-//         )
-    
-//     res.send("edited")
-// })
-// app.post("/post-edited-reply", async(req,res)=>{
-   
-    
-//     await mymodel.findOneAndUpdate({_id:req.body.data},
-//         {$set:{"comment.$[outer].reply.$[inner].data":req.body.comment}},
-//         {"arrayFilters":[{"outer._id":req.body.cid},{"inner._id":req.body.rid}]}
-//         )
-    
-//     res.send("edited reply")
-// })
-// app.post("/delete-com",async(req,res)=>{
-//     await mymodel.findOneAndUpdate({_id:req.body.blog_id},
-//         {
-//             $pull:{"comment":{_id:req.body.cid}}
-//         })
-        
-//     let doc = await usermodel.findOne({email:req.body.email})
-//     let i=0
-//     doc.comments_made.every(id=>{
-//         if(id == req.body.cid){
-//             return i
-//         }
-//         i++
-//     })
-//     doc.comments_made.splice(i,1)
-//     await usermodel.findOneAndUpdate({email:req.body.email},
-//         {
-//             $set:{comments_made:doc.comments_made}
-//         })
-  
-//     res.send("deleted")
-// })
-// app.post("/delete-reply", async(req,res)=>{
-//     await mymodel.findOneAndUpdate({_id:req.body.blog_id},
-//         {$pull:{"comment.$[outer].reply":{_id:req.body.rid}}},
-//         {"arrayFilters":[{"outer._id":req.body.cid}]}
-//         )
-//         let doc = await usermodel.findOne({email:req.body.email})
-//         let i=0
-//         console.log(doc.comments_made)
-//         doc.comments_made.forEach(id=>{
-//             // console.log(`${id} and ${req.body.rid}`)
-//             if(id == req.body.rid){
-//                 console.log(`${id} and ${req.body.rid}`)
-//                 return i
-//             }
-//             i++
-//         })
-//         console.log(`is is ${i}`)
-//         doc.comments_made.splice(i,1)
-//         await usermodel.findOneAndUpdate({email:req.body.email},
-//             {
-//                 $set:{comments_made:doc.comments_made}
-//             })
+io.on("connection",(socket)=>{
+    socket.on("join-room",data=>{
+        if(data.prev_room != "nothing"){
+        socket.leave(data.prev_room)
+        console.log("left "+data.prev_room)
+        }
+      socket.join(data.room)
+      console.log("joined room"+data.room)
       
-//         res.send("deleted")
-// })
-// app.post("/blog-like",async(req,res)=>{
+    })
+   socket.on("get-clients-no",room=>{
+       let clientNumber = io.sockets.adapter.rooms.get(room).size
+       console.log(clientNumber)
+       socket.emit("get-clients-no",clientNumber)
+   })
+     socket.on("express-chat",data=>{
    
-//     await mymodel.findOneAndUpdate({"_id":req.body.id},
-//     {
-//         $set:{"score":(req.body.value + 1)*0.2,"blog_likes": req.body.value}
-//     })
-//     if(req.body.flag == 1){
-//     await usermodel.findOneAndUpdate({email:req.body.email},{
-//        $push:{liked_blogs:req.body.id} 
-//     })
-// }
-// else{
-//     await usermodel.findOneAndUpdate({email:req.body.email},{
-//         $pull:{liked_blogs:req.body.id} 
-//      })
-// }
-// res.send("blog liked")
-// })
+       socket.to(data.roomID).emit("express-chat",(data))
+     })
+    //  socket.on('disconnect',()=>{
+    //      console.log("disconnected")
+    //  })
+     
+   
+   })
+   
 
-// app.post("/search", async(req,res)=>{
-//     if((req.body.filter)=="blog"){
-//         console.log("dfkjnlfnd")
-//     await mymodel.find({title:{$regex:req.body.data}},{title:1}).then(data=>{
-//         res.send(data)
-//     })
-// }
-// else{
-//     await usermodel.find({email:{$regex:req.body.data}},{email:1}).then(data=>{
-//         res.send(data)
-//     })
-// }
-// })
+   
+   
+   app.use('/',userRoutes);
+   app.use(mainRoute);
 
-app.listen(3000, () => {
-    console.log('At your service!!')
-})
+
+

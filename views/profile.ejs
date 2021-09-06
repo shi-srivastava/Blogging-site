@@ -20,7 +20,7 @@
 
                         <button class="profile_btn profile_profile-edit-btn">Edit Profile</button>
 
-                        <button class="profile_btn profile_profile-settings-btn" aria-label="profile settings"><i class="profile_fas fa-cog"
+                        <button class="profile_btn profile_profile-settings-btn" aria-label="profile settings"><i class="fas fa-cog"
                                 aria-hidden="true"></i></button>
 
                     </div>
@@ -46,6 +46,11 @@
                 <!-- End of profile section -->
 
             </div>
+            <div> <%if (blog){%>
+                <%blog.forEach(blog=>{%>
+                    <a href="demoblog/<%= blog._id %>"><%= blog.title %></a>
+                <%})%>
+                <%}%></div>
             <!-- End of container -->
 
         </header>
@@ -64,8 +69,7 @@
                         <div class="profile_gallery-item-info">
 
                             <ul>
-                                <li class="profile_gallery-item-likes"><span class="profile_visually-hidden">Likes:</span><i
-                                        class="fas fa-heart" aria-hidden="true"></i> 56</li>
+                                <li class="profile_gallery-item-likes"><span class="profile_visually-hidden">Likes:</span><i class="far fa-heart"></i> 56</li>
                                 <li class="profile_gallery-item-comments"><span class="profile_visually-hidden">Comments:</span><i
                                         class="fas fa-comment" aria-hidden="true"></i> 2</li>
                             </ul>
@@ -73,19 +77,19 @@
                         </div>
 
                     </div>
-
+                   
                     <div class="profile_gallery-item" tabindex="0">
 
                         <img src="https://images.unsplash.com/photo-1497445462247-4330a224fdb1?w=500&h=500&fit=crop"
                             class="profile_gallery-image" alt="">
 
                         <div class="profile_gallery-item-info">
-
+                            
                             <ul>
-                                <li class="profile_gallery-item-likes"><span class="profile_visually-hidden">Likes:</span><i
-                                        class="profile_fas profile_fa-heart" aria-hidden="true"></i> 89</li>
+                                <li class="profile_gallery-item-likes"><span class="profile_visually-hidden">Likes:</span>
+                                    <i class="far fa-heart"></i> 89</li>
                                 <li class="profile_gallery-item-comments"><span class="profile_visually-hidden">Comments:</span><i
-                                        class="profile_fas profile_fa-comment" aria-hidden="true"></i> 5</li>
+                                        class="fas fa-comment" aria-hidden="true"></i> 5</li>
                             </ul>
 
                         </div>
@@ -106,10 +110,9 @@
                         <div class="profile_gallery-item-info">
 
                             <ul>
-                                <li class="profile_gallery-item-likes"><span class="profile_visually-hidden">Likes:</span><i
-                                        class="profile_fas profile_fa-heart" aria-hidden="true"></i> 42</li>
+                                <li class="profile_gallery-item-likes"><span class="profile_visually-hidden">Likes:</span><i class="far fa-heart"></i> 89</li></li>
                                 <li class="profile_gallery-item-comments"><span class="profile_visually-hidden">Comments:</span><i
-                                        class="profile_fas profile_fa-comment" aria-hidden="true"></i> 1</li>
+                                        class="fas fa-comment" aria-hidden="true"></i> 1</li>
                             </ul>
 
                         </div>
@@ -123,7 +126,7 @@
 
                         <div class="profile_gallery-item-type">
 
-                            <span class="profile_visually-hidden">Video</span><i class="profile_fas profile_fa-video" aria-hidden="true"></i>
+                            <span class="profile_visually-hidden">Video</span><i class="fas fa-video" aria-hidden="true"></i>
 
                         </div>
 
@@ -131,9 +134,9 @@
 
                             <ul>
                                 <li class="profile_gallery-item-likes"><span class="profile_visually-hidden">Likes:</span><i
-                                        class="profile_fas profile_fa-heart" aria-hidden="true"></i> 38</li>
+                                        class="fas fa-heart" aria-hidden="true"></i> 38</li>
                                 <li class="profile_gallery-item-comments"><span class="profile_visually-hidden">Comments:</span><i
-                                        class="profile_fas profile_fa-comment" aria-hidden="true"></i> 0</li>
+                                        class="fas fa-comment" aria-hidden="true"></i> 0</li>
                             </ul>
 
                         </div>
@@ -147,7 +150,7 @@
 
                         <div class="profile_gallery-item-type">
 
-                            <span class="profile_visually-hidden">Gallery</span><i class="profile_fas profile_fa-clone" aria-hidden="true"></i>
+                            <span class="profile_visually-hidden">Gallery</span><i class="fas fa-clone" aria-hidden="true"></i>
 
                         </div>
 
@@ -155,9 +158,9 @@
 
                             <ul>
                                 <li class="profile_gallery-item-likes"><span class="profile_visually-hidden">Likes:</span><i
-                                        class="profile_fas profile_fa-heart" aria-hidden="true"></i> 47</li>
+                                        class="fas fa-heart" aria-hidden="true"></i> 47</li>
                                 <li class="profile_gallery-item-comments"><span class="profile_visually-hidden">Comments:</span><i
-                                        class="profile_fas profile_fa-comment" aria-hidden="true"></i> 1</li>
+                                        class="fas fa-comment" aria-hidden="true"></i> 1</li>
                             </ul>
 
                         </div>
@@ -173,9 +176,9 @@
 
                             <ul>
                                 <li class="profile_gallery-item-likes"><span class="profile_visually-hidden">Likes:</span><i
-                                        class="profile_fas profile_fa-heart" aria-hidden="true"></i> 94</li>
+                                        class="fas fa-heart" aria-hidden="true"></i> 94</li>
                                 <li class="profile_gallery-item-comments"><span class="profile_visually-hidden">Comments:</span><i
-                                        class="profile_fas profile_fa-comment" aria-hidden="true"></i> 3</li>
+                                        class="fas fa-comment" aria-hidden="true"></i> 3</li>
                             </ul>
 
                         </div>
@@ -189,7 +192,7 @@
 
                         <div class="profile_gallery-item-type">
 
-                            <span class="profile_visually-hidden">Gallery</span><i class="profile_fas fa-clone" aria-hidden="true"></i>
+                            <span class="profile_visually-hidden">Gallery</span><i class="fas fa-clone" aria-hidden="true"></i>
 
                         </div>
 
@@ -197,9 +200,9 @@
 
                             <ul>
                                 <li class="profile_gallery-item-likes"><span class="profile_visually-hidden">Likes:</span><i
-                                        class="profile_fas profile_fa-heart" aria-hidden="true"></i> 52</li>
+                                        class="fas fa-heart" aria-hidden="true"></i> 52</li>
                                 <li class="profile_gallery-item-comments"><span class="profile_visually-hidden">Comments:</span><i
-                                        class="profile_fas profile_fa-comment" aria-hidden="true"></i> 4</li>
+                                        class="fas fa-comment" aria-hidden="true"></i> 4</li>
                             </ul>
 
                         </div>
@@ -215,9 +218,9 @@
 
                             <ul>
                                 <li class="profile_gallery-item-likes"><span class="profile_visually-hidden">Likes:</span><i
-                                        class="profile_fas profile_fa-heart" aria-hidden="true"></i> 66</li>
+                                        class="fas fa-heart" aria-hidden="true"></i> 66</li>
                                 <li class="profile_gallery-item-comments"><span class="profile_visually-hidden">Comments:</span><i
-                                        class="profile_fas profile_fa-comment" aria-hidden="true"></i> 2</li>
+                                        class="fas fa-comment" aria-hidden="true"></i> 2</li>
                             </ul>
 
                         </div>
@@ -231,7 +234,7 @@
 
                         <div class="profile_gallery-item-type">
 
-                            <span class="profile_visually-hidden">Gallery</span><i class="profile_fas fa-clone" aria-hidden="true"></i>
+                            <span class="profile_visually-hidden">Gallery</span><i class="fas fa-clone" aria-hidden="true"></i>
 
                         </div>
 
@@ -239,9 +242,9 @@
 
                             <ul>
                                 <li class="profile_gallery-item-likes"><span class="profile_visually-hidden">Likes:</span><i
-                                        class="profile_fas profile_fa-heart" aria-hidden="true"></i> 45</li>
+                                        class="fas fa-heart" aria-hidden="true"></i> 45</li>
                                 <li class="profile_gallery-item-comments"><span class="profile_visually-hidden">Comments:</span><i
-                                        class="profile_fas profile_fa-comment" aria-hidden="true"></i> 0</li>
+                                        class="fas fa-comment" aria-hidden="true"></i> 0</li>
                             </ul>
 
                         </div>
@@ -257,9 +260,9 @@
 
                             <ul>
                                 <li class="profile_gallery-item-likes"><span class="profile_visually-hidden">Likes:</span><i
-                                        class="profile_fas profile_fa-heart" aria-hidden="true"></i> 34</li>
+                                        class="fas fa-heart" aria-hidden="true"></i> 34</li>
                                 <li class="profile_gallery-item-comments"><span class="profile_visually-hidden">Comments:</span><i
-                                        class="profile_fas profile_fa-comment" aria-hidden="true"></i> 1</li>
+                                        class="fas fa-comment" aria-hidden="true"></i> 1</li>
                             </ul>
 
                         </div>
@@ -275,9 +278,9 @@
 
                             <ul>
                                 <li class="profile_gallery-item-likes"><span class="profile_visually-hidden">Likes:</span><i
-                                        class="profile_fas profile_fa-heart" aria-hidden="true"></i> 41</li>
+                                        class="fas fa-heart" aria-hidden="true"></i> 41</li>
                                 <li class="profile_gallery-item-comments"><span class="profile_visually-hidden">Comments:</span><i
-                                        class="profile_fas profile_fa-comment" aria-hidden="true"></i> 0</li>
+                                        class="fas fa-comment" aria-hidden="true"></i> 0</li>
                             </ul>
 
                         </div>
@@ -291,7 +294,7 @@
 
                         <div class="profile_gallery-item-type">
 
-                            <span class="profile_visually-hidden">Video</span><i class="profile_fas profile_fa-video" aria-hidden="true"></i>
+                            <span class="profile_visually-hidden">Video</span><i class="fas fa-video" aria-hidden="true"></i>
 
                         </div>
 
@@ -299,9 +302,9 @@
 
                             <ul>
                                 <li class="profile_gallery-item-likes"><span class="profile_visually-hidden">Likes:</span><i
-                                        class="profile_fas profile_fa-heart" aria-hidden="true"></i> 30</li>
+                                        class="fas fa-heart" aria-hidden="true"></i> 30</li>
                                 <li class="profile_gallery-item-comments"><span class="profile_visually-hidden">Comments:</span><i
-                                        class="profile_fas profile_fa-comment" aria-hidden="true"></i> 2</li>
+                                        class="fas fa-comment" aria-hidden="true"></i> 2</li>
                             </ul>
 
                         </div>

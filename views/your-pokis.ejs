@@ -1,7 +1,12 @@
 
 <%- include('include/start.ejs')%>
 <%- include('include/nav1.ejs')%>
-<a href="your-pokis-created">If created one, click here</a>
+<%if (blog.length > 0){%>
+    <%blog.forEach(blog=>{%>
+        <a href="draft_edit/<%= blog._id %>"><%= blog.title %></a>
+    <%})%>
+    <%}else{%>
+
 <h1 id="blog-title" style="text-align:center;margin-top:5%">
     You have not created any blogs. Create one now!
 </h1>
@@ -12,5 +17,5 @@
     >
 </a>
 </div>
-
+<%}%>
 <%- include('include/end.ejs')%>

@@ -3,12 +3,12 @@
 <%- include('include/nav1.ejs')%>
 <div style="display:block">
     <h1 style="margin-left: 1%;margin-top:2%">Recent Notifications</h1>
-    
+    <br><br>
         <div style="display:block">
             <ol>
                 <% for(let i = 0; i < 5 ; i++){ %>
                 <div width="90%" style="height:5%; text-align:left; background-color: white;color:rgba(0, 0, 0,0.6);margin-bottom: 1%;">
-                    <li style="list-style-type: none;height:50px;font-size: 20px"><img src="" alt="image of blog">Lorem ipsum dolor sit amet, consectet just liked your blog</li>
+                    <li style="list-style-type: none;height:50px;font-size: 20px"><div class="avatar" style="display:inline"><img src="https://38.media.tumblr.com/avatar_19873f82fcd6_64.png" style="width:5%;display:inline;border-radius:50%" alt="image of blog"></div>Lorem ipsum dolor sit amet, consectet just liked your blog</li>
                 </div>
                 <% } %>
             </ol>

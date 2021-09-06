@@ -32,4 +32,6 @@ $(document).ready(function () {
         $('.slide.two').toggleClass('active').toggleClass('inactive');
         $('.slide.one').toggleClass('active').toggleClass('inactive');
     });
+
+    
 });

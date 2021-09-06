@@ -3,7 +3,8 @@ const router = express.Router();
 const User = require('../models/user');
 const passport = require('passport');
 const bcrypt = require('bcrypt');
-
+var cookieParser = require('cookie-parser');
+router.use(cookieParser());
 router.get('/register', (req, res) => {
     res.render('login_signup');
 });
@@ -32,11 +33,14 @@ router.get('/login', (req, res) => {
 router.post('/login', passport.authenticate('local', {
     failureFlash: true,
     failureRedirect: '/login'
-}), async (req, res) => {
-    const redirectUrl = req.session.returnTo || '/';
+}), (req, res) => {
+    let str ="/"+req.body.email
+    console.log(`${str} and ${req.body.email}`)
+    res.cookie("email",req.body.email)
+    // const redirectUrl = req.session.returnTo || str;
+    const redirectUrl = '/';
     delete req.session.returnTo;
-    console.log(req.body)
-    req.session.cookie.user = await User.findOne({email:req.body.email})
+    console.log(redirectUrl)
     res.redirect(redirectUrl);
 });
 

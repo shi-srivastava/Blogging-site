@@ -5,6 +5,7 @@ const BlogSchema = new Schema({
     email: {
         type: String
     },
+    is_draft:{type:String, default:"n"},
     title: {
         type: String
     },
