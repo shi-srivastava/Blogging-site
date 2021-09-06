@@ -38,7 +38,7 @@ router.post('/login', passport.authenticate('local', {
     console.log(`${str} and ${req.body.email}`)
     res.cookie("email",req.body.email)
     // const redirectUrl = req.session.returnTo || str;
-    const redirectUrl = '/';
+    const redirectUrl = '/home';
     delete req.session.returnTo;
     console.log(redirectUrl)
     res.redirect(redirectUrl);
@@ -46,7 +46,7 @@ router.post('/login', passport.authenticate('local', {
 
 router.get('/logout', (req, res) => {
     req.logout();
-    res.redirect('/');
+    res.redirect('/login');
 })
 
 module.exports = router;

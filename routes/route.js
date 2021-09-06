@@ -32,7 +32,7 @@ route.get('/login',isLoggedIn,(req,res,next)=>{
    res.render("login_signup")
 })
 
-route.get('/',isLoggedIn, async(req,res,next) =>{
+route.get('/home',isLoggedIn, async(req,res,next) =>{
 
 cur_user = req.cookies['email']
 await mymodel.find().sort({score:-1}).then(data=>{

@@ -97,36 +97,13 @@ passport.use(new LocalStrategy({
         }
     }
 ));
-const send_data=(a)=>{
-    console.log(`VAL IS ${cur_user}`)
-    module.exports={e:a,b:"yo"}
+
 
 app.use('/', userRoutes);
 app.use(mainRoute);
 
 
 
-
-
-// app.get('/', isLoggedIn, async (req, res) => {
-//     //req.flash('success', "successfully reached to home page!!");
-//     // await mymodel.find().sort({score:-1}).then(data=>{
-//         // res.render('home',{blogs:data})
-//     res.render('home');
-//     // })
-// })
-
-// app.get("/get-trending",async(req,res)=>{
-//     await mymodel.find().sort({score:-1}).then(data=>{
-//         res.send(data)
-//     })
-// })
-
-// app.get("/new",(req,res)=>{
-//     res.render("new")
-// })
-}
-// module.exports = {e:cur_user,b:"yo"}
 
 io.on("connection",(socket)=>{
     socket.on("join-room",data=>{
