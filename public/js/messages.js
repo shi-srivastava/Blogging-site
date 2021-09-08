@@ -97,6 +97,8 @@ const search =()=>{
 
 
          btn.onclick = function(){
+           let del = document.getElementsByClassName("delete")
+           del[0].id = btn.id
      let cur_room = document.getElementsByClassName("active_room")
      if(cur_room.length>0){
      //alert(cur_room[0].id)
@@ -148,10 +150,16 @@ const search =()=>{
     //
      
    }
-
+   if(res.sender != sender && res.chats.length!=0 ){
    document.getElementById("users").prepend(btn)
    let linebreak = document.createElement("br")
    document.getElementById("users").prepend(linebreak)
+   }
+   else if(res.sender == sender){
+    document.getElementById("users").prepend(btn)
+    let linebreak = document.createElement("br")
+    document.getElementById("users").prepend(linebreak)
+   }
        }
      }
          )}
@@ -161,7 +169,6 @@ const search =()=>{
    window.onload = get_senders()
  const create_new_chat =()=>{
  
-
    let receiver = $("input[name='r']").val()
    
 
@@ -181,7 +188,7 @@ const search =()=>{
   
    let receiver = $("label[for='receiver']").html()
    let msg = $("input[name='input msg']").val()
-  let isRead = 0,val=0
+  
    socket.emit("get-clients-no",btn.id)
    socket.once("get-clients-no",data=>{
     $.ajax({
@@ -231,4 +238,14 @@ const search =()=>{
      }
    })
    
+ }
+ const delete_chat =(btn)=>{
+   $.ajax({
+     url:"/delete-chat",
+     method:"POST",
+     data:{roomID:btn.id},
+     success:function(){
+      window.location.href = window.location
+     }
+   })
  }

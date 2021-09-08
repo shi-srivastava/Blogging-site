@@ -247,7 +247,8 @@ else{
     
     route.post("/get-my-senders", async(req,res)=>{
         console.log(req.body.sender)
-     let doc = await chat_model.find({$or:[{sender:req.body.sender},{receiver:req.body.sender}]})
+    //  let doc = await chat_model.find({$or:[{sender:req.body.sender},{receiver:req.body.sender}]})
+    let doc = await chat_model.find({$or:[{receiver:req.body.sender},{sender:req.body.sender}]})
     //  console.log(doc)
     
      res.send(doc)
@@ -266,6 +267,15 @@ else{
      })
     
       res.send(doc)
+    })
+    route.post("/delete-chat",async(req,res)=>{
+        try{
+        await chat_model.remove({roomID:req.body.roomID})
+        res.send("done")
+        }
+        catch(error){
+            console.log(error)
+        }
     })
     route.post("/send-msg", async(req,res)=>{
         console.log(`isread is ${req.body.isRead}`)
