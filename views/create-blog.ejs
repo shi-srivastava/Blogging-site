@@ -52,6 +52,48 @@ style="background-image: url('https://th.bing.com/th/id/R.f1080717f431bb18552732
     <button id="post">Post</button>
   </div>
   <script>
+    let user_mentions=[]
+    
+    $.ajax({
+      url:"/sending-user-for-mention",
+      method:"GET",
+      
+      success:function(res){
+        res.forEach(user=>{
+          
+          user_mentions.push(user.username)
+        })
+        $('#editor').summernote({
+      height: 800,
+      toolbar: [
+        ['misc', ['undo', 'redo']],
+        ['style', ['bold', 'italic', 'underline', 'clear']],
+        ['font', ['strikethrough', 'superscript', 'subscript']],
+        ['insert', ['link', 'video', 'table', 'picture']],
+
+        ['para', ['ul', 'ol', 'paragraph']],
+
+      ],
+      hint: {
+    mentions: user_mentions,
+    match: /\B@(\w*)$/,
+    search: function (keyword, callback) {
+      callback($.grep(this.mentions, function (item) {
+        return item.indexOf(keyword) == 0;
+      }));
+    },
+    content: function (item) {
+      let anchor = document.createElement("a")
+      anchor.innerHTML = '@'+item
+      return anchor;
+    }    
+  }
+    });
+      }
+    })
+    
+  
+  
     $("#ads").on("click", () => {
       $("#ads-textarea").toggle()
     })
@@ -81,33 +123,7 @@ style="background-image: url('https://th.bing.com/th/id/R.f1080717f431bb18552732
 
       })
     })
-    $('#editor').summernote({
-      height: 800,
-      toolbar: [
-        ['misc', ['undo', 'redo']],
-        ['style', ['bold', 'italic', 'underline', 'clear']],
-        ['font', ['strikethrough', 'superscript', 'subscript']],
-        ['insert', ['link', 'video', 'table', 'picture']],
-
-        ['para', ['ul', 'ol', 'paragraph']],
-
-      ],
-      hint: {
-        mentions: ['jayden', 'sam', 'alvin', 'david'],
-        match: /\B@(\w*)$/,
-        search: function (keyword, callback) {
-          callback($.grep(this.mentions, function (item) {
-            return item.indexOf(keyword) == 0;
-          }));
-        },
-        content: function (item) {
-          let p = document.createElement('p')
-          p.style.color = "#4747d1"
-          p.innerHTML = item
-          return p;
-        }
-      }
-    });
+  
   </script>
 
 </body>

@@ -119,8 +119,12 @@ route.get('/your-pokis-created',(req,res,next) =>{
     
     res.render('your-pokis-created',{name:cur_user,tag:"jnln",page_title:"pokis"});
 })
-route.get('/create-blog',(req,res,next) =>{
-    res.render('create-blog.ejs',nav_send);
+route.get('/create-blog',async(req,res) =>{
+    res.render('create-blog.ejs',{name:req.cookies['email'],tag:"5 star"});
+})
+route.get("/sending-user-for-mention", async(req,res)=>{
+    let doc = await usermodel.find({},{username:1})
+res.send(doc)
 })
 route.get("/draft_edit/:id",async(req,res)=>{
     let doc = await mymodel.findById(req.params.id)
