@@ -15,17 +15,7 @@ let cur_user = ""
 //need to change nav_send name to something else, as 'name' key is passed in demoblog as
 //well
 
-const findUser = async(cur_user)=> { 
-    try{
-    if(cur_user !=""){
-    return await usermodel.findOne({email:cur_user})
-    }
-    // return {username:"nothing"}
-}
-catch(error){
-    console.log(error)
-}
-}
+
 const nav_send ={"name":"s","tag":"h"}
 route.get('/login',isLoggedIn,(req,res,next)=>{
     res.clearCookie("email")
@@ -55,8 +45,8 @@ route.get('/temp', (req,res,next) =>{
 })
 route.get('/profile',async(req,res,next) =>{
     try{
-    let doc = await mymodel.find({email:cur_user,is_draft:"n"})
-res.render('profile',{blog:doc,name:cur_user,tag:"jnln",page_title:"profile"});
+    let doc = await mymodel.find({email:req.cookies['email'],is_draft:"n"})
+res.render('profile',{blog:doc,name:cur_user,tag:"5 star",page_title:"profile"});
     }
     catch(error){
 console.log(error);
@@ -104,7 +94,7 @@ route.get('/trending',(req,res,next) =>{
 })
 route.get('/your-projects',(req,res,next) =>{
     
-    res.render('trending.ejs',{name:cur_user,tag:"jnln",page_title:"pokis"});
+    res.render('trending.ejs',{name:req.cookies['email'],tag:"jnln",page_title:"pokis"});
 })
 
 // route.get('/demo-blog',async (req,res,next)=>{
@@ -117,7 +107,7 @@ route.get('/your-projects',(req,res,next) =>{
 // })
 route.get('/your-pokis-created',(req,res,next) =>{
     
-    res.render('your-pokis-created',{name:cur_user,tag:"jnln",page_title:"pokis"});
+    res.render('your-pokis-created',{name:req.cookies['email'],tag:"jnln",page_title:"pokis"});
 })
 route.get('/create-blog',async(req,res) =>{
     res.render('create-blog.ejs',{name:req.cookies['email'],tag:"5 star"});
@@ -130,10 +120,15 @@ route.get("/draft_edit/:id",async(req,res)=>{
     let doc = await mymodel.findById(req.params.id)
     res.render("draft_edit",{blog:doc})
 })
+route.get("/edit_post/:id",async(req,res)=>{
+    let doc = await mymodel.findById(req.params.id)
+    res.render("editblogafterpost",{blog:doc})
+})
 route.get("/demoblog/:id",async(req,res)=>{
     let doc = await mymodel.findById(req.params.id)
    let user = await usermodel.find({email:req.cookies['email']})
     user = await usermodel.findById({_id:user[0]._id})
+   
     res.render("demoblog",{name:user.username,blog:doc,user:user,email:req.cookies['email']})
 })
 route.post("/draft-edit",async(req,res)=>{
@@ -170,7 +165,7 @@ console.log(error)
  })
 route.post("/save-as-draft",async(req,res)=>{
     const data = new mymodel({
-            email:cur_user,
+            email:req.cookies['email'],
             is_draft:"y",
             title: req.body.title,
 
@@ -181,7 +176,7 @@ res.send("")
 })
 route.post("/post-blog",async(req,res)=>{
     const data = new mymodel({
-            email:cur_user,
+            email:req.cookies['email'],
             is_draft:"n",
             title: req.body.title,
 
@@ -213,10 +208,11 @@ else{
 }
 })
 route.get("/profile/:id", async(req,res)=>{
+    console.log("this is"+req.cookies['email'])
     let user = await usermodel.findById(req.params.id)
     try{
-        let doc = await mymodel.find({email:user.email,is_draft:"n"})
-    res.render('profile',{blog:doc,name:cur_user,tag:"jnln",page_title:"profile"});
+        let doc = await mymodel.find({email:req.cookies['email'],is_draft:"n"})
+    res.render('profile',{blog:doc,name:req.cookies['email'],tag:"jnln",page_title:"profile"});
         }
         catch(error){
     console.log(error);

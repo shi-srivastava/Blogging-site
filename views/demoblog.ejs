@@ -13,7 +13,7 @@
 
 </head>
 <body>
-  
+  <button id="<%= blog._id %>" onclick="edit_blog(this)">EDIT</button>
     
 
    <h2 style="text-align: center;"><%= blog.title %></h2>
@@ -139,7 +139,10 @@
    
        
    <script>
-
+const edit_blog =(btn)=>{
+    alert(btn.id)
+    window.location.href="/edit_post/"+btn.id
+}
 const blog_likes = (btn)=>{
 const notliked ='<i class="fa fa-thumbs-o-up" aria-hidden="true"></i>'
 const liked = '<i class="fa fa-thumbs-up" aria-hidden="true"></i>'

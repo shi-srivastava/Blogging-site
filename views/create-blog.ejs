@@ -53,14 +53,14 @@ style="background-image: url('https://th.bing.com/th/id/R.f1080717f431bb18552732
   </div>
   <script>
     let user_mentions=[]
-    
+    let user_id=[]
     $.ajax({
       url:"/sending-user-for-mention",
       method:"GET",
       
       success:function(res){
         res.forEach(user=>{
-          
+          user_id.push(user._id)
           user_mentions.push(user.username)
         })
         $('#editor').summernote({
@@ -83,8 +83,10 @@ style="background-image: url('https://th.bing.com/th/id/R.f1080717f431bb18552732
       }));
     },
     content: function (item) {
+      let index = user_mentions.indexOf(item)
       let anchor = document.createElement("a")
       anchor.innerHTML = '@'+item
+      anchor.href="/profile/"+user_id[index]
       return anchor;
     }    
   }
