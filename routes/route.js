@@ -131,6 +131,10 @@ route.get("/demoblog/:id",async(req,res)=>{
    
     res.render("demoblog",{name:user.username,blog:doc,user:user,email:req.cookies['email']})
 })
+//traversy media
+route.get("/traversy",(req,res)=>{
+    res.render("traversyMedia")
+})
 route.post("/draft-edit",async(req,res)=>{
     console.log(req.body.id)
     try{
