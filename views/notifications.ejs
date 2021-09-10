@@ -15,4 +15,14 @@
         </div>
     
 </div>
+<% if ((user.notif).length >0){%>
+    <% user.notif.forEach(notif=>{%>
+        <%if (notif.type == "comment"){%>
+            <p><%= notif.name %> commented on your blog <%=notif.blog %></p>
+        <%}%>
+        <%if (notif.type == "follow"){%>
+            <p><%= notif.name %> started following you</p>
+        <%}%>
+    <%})%>
+<% }%>
 <%- include('include/end.ejs')%>

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const passportLocalMongoose = require('passport-local-mongoose');
-
+let d = new Date()
 const UserSchema = new Schema({
     username: {
         type: String,
@@ -30,7 +30,15 @@ const UserSchema = new Schema({
     },
     liked_blogs: {
         type: Array
-    }
+    },
+    followers:{type:Array},
+    notif:[{
+        type:{type:String},
+        name:{type:String},
+        blog:{type:String},
+        date:{type:String, default: ""+d.getDate()+"-"+d.getMonth()+1+"-"+d.getFullYear()}
+    }],
+    
 })
 UserSchema.plugin(passportLocalMongoose);
 

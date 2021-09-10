@@ -1,6 +1,6 @@
 <%- include('include/start.ejs')%>
     <%- include('include/nav1.ejs')%>
-
+  
         <header>
 
             <div class="profile_container">
@@ -15,9 +15,12 @@
                     </div>
 
                     <div class="profile_profile-user-settings">
-
-                        <h1 class="profile_profile-user-name">janedoe_</h1>
-
+                        <% if(user!="nothing"){%>
+                        <h1 class="profile_profile-user-name"><%=user.username%></h1>
+                        <%}else{%>
+                        
+                        <h1 class="profile_profile-user-name"><%=userprofile.username%></h1>
+                        <%}%>
                         <button class="profile_btn profile_profile-edit-btn">Edit Profile</button>
 
                         <button class="profile_btn profile_profile-settings-btn" aria-label="profile settings"><i class="fas fa-cog"

@@ -14,9 +14,9 @@
 </head>
 <body>
   <button id="<%= blog._id %>" onclick="edit_blog(this)">EDIT</button>
-    
+    <label for="writer"><%= blog.email %></label>
 
-   <h2 style="text-align: center;"><%= blog.title %></h2>
+   <label for="title"><%= blog.title %></label>
    <div style="text-align: center;">
    <%- blog.body %>
    </div>
@@ -269,7 +269,9 @@ let flag=0
         $.ajax({
             url: "/do-comment",
             data:{comment: form.comment.value,id:form.id.value,
-                email:$("label[id='name']").text()
+                email:$("label[id='name']").text(),
+                writer:$("label[for='writer']").text(),
+                title:$("label[for='title']").text()
             },
             method: "POST",
             success: function(response){
