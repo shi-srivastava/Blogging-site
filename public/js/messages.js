@@ -85,6 +85,7 @@ const search =()=>{
          res.forEach(res=>{
          if(res.roomID!=undefined){
        let btn = document.createElement('button')
+          btn.className+="chat-with"
          btn.id = res.roomID
          
          if(res.sender == sender){
@@ -134,11 +135,10 @@ const search =()=>{
        for(let i=0;i<msg.chats.length;i++){
          if(msg.chats[i].data != undefined){
           if(msg.chats[i].username == sender){
-         chat_div.innerHTML += '<p style="margin-left:100px;">'+msg.chats[i].data+'</p><p style="margin-left:100px;"><sub>'+msg.chats[i].date+'</sub></p>'
+         chat_div.innerHTML += '<div style="text-align:right;"><div class="msg-bubble-sender"><p style="margin:0;">'+msg.chats[i].data+'<br><span style="font-size:10px;color:grey;">'+msg.chats[i].date+'</span></p></div></div>'
         }
         if(msg.chats[i].username != sender){
-         chat_div.innerHTML += '<p >'+msg.chats[i].data+'</p><sub>'+msg.chats[i].date+'</sub></p>'
-
+         chat_div.innerHTML += '<div style="text-align:left;"><div class="msg-bubble-receiver"><p style="margin:0;">'+msg.chats[i].data+'<br><span style="font-size:10px;color:grey;">'+msg.chats[i].date+'</sub></p></div></div>'
         }
        }
        }
@@ -206,39 +206,33 @@ const search =()=>{
    socket.emit("express-chat",{roomID:btn.id,msg:msg})
    let d = new Date()
    let s = ""+d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear()
-
-   chat_div.innerHTML += '<p style="margin-left:100px;">' +msg+'</p><p style="margin-left:100px;"><sub>'+s+' '+d.toLocaleTimeString()+'</sub></p>'
+   chat_div.innerHTML += '<div style="text-align:right;"><div class="msg-bubble-sender"><p style="margin:0;">'+msg+'<br><span style="font-size:10px;color:grey;">'+s+' '+d.toLocaleTimeString()+'</span></p></div></div>'
+  //  chat_div.innerHTML += '<p style="margin-left:100px;">' +msg+'</p><p style="margin-left:100px;"><sub>'+s+' '+d.toLocaleTimeString()+'</sub></p>'
  }
- const show_chat =()=>{
-   let send_btn = document.getElementsByClassName("send")
-
-   let btn = send_btn[0]
-  
-   let i=0
-   $.ajax({
-     url:"/get-chats",
-     method:"POST",
-     data:{roomID:btn.id},
-     success:function(data){
+const show_chat =()=>{
+  let send_btn = document.getElementsByClassName("send")
+  let btn = send_btn[0]  
+  let i=0
+  $.ajax({
+    url:"/get-chats",
+    method:"POST",
+    data:{roomID:btn.id},
+    success:function(data){
       (data).forEach(msg=>{
-       for(let i=0;i<msg.chats.length;i++){
-         if(msg.chats[i].data != undefined){
-          if(msg.chats[i].username == sender){
-            chat_div.innerHTML += '<p style="margin-left:100px;">'+msg.chats[i].data+'</p><p style="margin-left:100px;"><sub>'+msg.chats[i].date+'</sub></p>'
+        for(let i=0;i<msg.chats.length;i++){
+          if(msg.chats[i].data != undefined){
+            if(msg.chats[i].username == sender){
+              chat_div.innerHTML += '<p style="margin-left:100px;">'+msg.chats[i].data+'</p><p style="margin-left:100px;"><sub>'+msg.chats[i].date+'</sub></p>'
+            }
+            if(msg.chats[i].username != sender){
+              chat_div.innerHTML += '<p >'+msg.chats[i].data+'</p><sub>'+msg.chats[i].date+'</sub></p>'
+            }
+          }
         }
-        if(msg.chats[i].username != sender){
-         chat_div.innerHTML += '<p >'+msg.chats[i].data+'</p><sub>'+msg.chats[i].date+'</sub></p>'
-
-        }
-       }
-       }
-       
-        
       })
-     }
-   })
-   
- }
+    }
+  })
+}
  const delete_chat =(btn)=>{
    $.ajax({
      url:"/delete-chat",

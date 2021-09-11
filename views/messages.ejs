@@ -2,27 +2,35 @@
 
 <%- include('include/start.ejs')%>
 <%- include('include/nav1.ejs')%>
-
+<!-- <%- include('traversyMedia.ejs')%> -->
 </head>
-<body>
-  
+<body style="height:100%; width:100%;overflow:hidden;">
+<div id="chat-page">
+  <div id="chat-contacts">
+    <input type="text" name="r" id="r" placeholder="Enter receiver's name" onkeyup="search()"><!--
+    --><button onclick="create_new_chat()" style="display:inline-block;margin-left:0;margin-right:10px;border-radius:0 10px 10px 0;padding:3px;">+new chat</button>
+    <div id="receiver_search"></div>
+    <hr style="margin:0;padding:0;">
+    <!-- <br><br> -->
+    <div id="users" style="width: 100%;">
+    </div>
+  </div>
 
- <input type="text" name="r" id="r" placeholder="Enter receiver's name" onkeyup="search()">
- <div id="receiver_search"></div>
- <button onclick="create_new_chat()">+new chat</button>
- <br><br>
- <div id="users" style="width: 40%; margin-left: 0;">
-</div>
-<!-- <label for="counter"></label> -->
-<div  class="send_div" style="width:60%; right: 0px; position: absolute;" >
-<strong><label for="receiver"  style="bottom: 0px;">receiver</label></strong>
-<button class="delete" onclick="delete_chat(this)"><i class="fa fa-trash-o" aria-hidden="true"></i></button><br>
-<div id="chat"></div>
-<input type="text" name="input msg" style="margin-bottom: 0;">
-<button class="send" onclick="on_post(this)" style="margin-bottom:0 ;">
-  Send</button>
+  <div  class="send_div" style="border-left:2px solid black;background-color:blueviolet;height:90%;width:75%;right: 0px; position: absolute; bottom:0;" >
+    <div id="receiver-name">
+      <strong><label for="receiver" style="bottom: 0px;">receiver</label></strong>
+      <button class="delete" onclick="delete_chat(this)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+    </div>
+    <hr style="margin:0;padding:0">
+    <div id="chat" style="width:100%;">hi</div>
+    <div id="send-message">
+      <input type="text" name="input msg" placeholder="Type a message...">
+      <button class="send" onclick="on_post(this)" >
+        Send
+      </button>
+    </div>
+  </div>
 </div>
 <input type="hidden" name="sender" value="<%= username %>">
 <script src="js/messages.js"></script>
-
 <%- include('include/end.ejs')%>
