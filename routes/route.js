@@ -46,6 +46,7 @@ route.get('/temp', (req,res,next) =>{
 route.post("/follow",async(req,res)=>{
     console.log("follow")
     let user = await usermodel.find({email:req.cookies['email']})
+    let user2 = await usermodel.find({email:req.cookies['email']})
     user = await usermodel.findById({_id:user[0]._id})
    
    console.log(req.body.uid)
@@ -57,8 +58,38 @@ route.post("/follow",async(req,res)=>{
             }
         }
     })
+    await usermodel.findByIdAndUpdate(req.body.uid,{
+        $set:{notif_status:1}
+    })
+    await usermodel.findByIdAndUpdate(user2[0]._id,{
+        $push:{
+            following:req.body.uid
+        }
+    })
     await usermodel.findOneAndUpdate({_id:req.body.uid},{
         $push:{
+            followers:user.username,
+            
+        }
+    })
+    
+    res.send("done")
+})
+route.post("/unfollow", async(req,res)=>{
+    console.log("unfollow")
+    let user = await usermodel.find({email:req.cookies['email']})
+    let user2 = await usermodel.find({email:req.cookies['email']})
+    user = await usermodel.findById({_id:user[0]._id})
+   
+   console.log(req.body.uid)
+    
+    await usermodel.findByIdAndUpdate(user2[0]._id,{
+        $pull:{
+            following:req.body.uid
+        }
+    })
+    await usermodel.findOneAndUpdate({_id:req.body.uid},{
+        $pull:{
             followers:user.username,
             
         }
@@ -95,6 +126,19 @@ route.get('/messages',async(req,res,next) =>{
    let user = await usermodel.find({email:req.cookies['email']})
    user = await usermodel.findById({_id:user[0]._id})
     res.render('messages.ejs',{username:user.username,name:cur_user,tag:"5",page_title:"Chat"});
+})
+route.post("/get-notif-status",async(req,res)=>{
+    let doc = await usermodel.find({email:req.cookies['email']})
+   
+    if(req.body.flag == 0){
+
+res.send(doc)
+    }
+    if(req.body.flag==1){
+        await usermodel.findOneAndUpdate({email:req.cookies['email']},{
+            $set:{notif_status:0}
+        })
+    }
 })
 route.get('/notifications',async(req,res) =>{
     let user = await usermodel.find({email:req.cookies['email']})
@@ -242,14 +286,18 @@ route.get("/profile/:id", async(req,res)=>{
     console.log("this is"+req.cookies['email'])
     let user = await usermodel.findById(req.params.id)
     try{
-        let doc = await mymodel.find({email:req.cookies['email'],is_draft:"n"})
-    res.render('profile2',{blog:doc,name:req.cookies['email'],
-    userprofile:user,user:"nothing",
+        let blogs = await mymodel.find({email:user.email})
+        let doc = await usermodel.find({email:req.cookies['email']})
+    res.render('profile2',{me:doc,name:req.cookies['email'],
+    userprofile:user,user:"nothing",blog:blogs,
     tag:"jnln",page_title:"profile"});
         }
         catch(error){
     console.log(error);
         }
+})
+route.get("/profile/demoblog/:id",(req,res)=>{
+    res.redirect("/demoblog/"+req.params.id)
 })
 route.post("/get-room-id", async(req,res)=>{
     console.log(req.body.r)
@@ -378,6 +426,9 @@ else{
             }
         })
     }
+    await usermodel.findOneAndUpdate({email:req.body.writer},{
+        $set:{notif_status:1}
+    })
        res.send(`done`)
     
     })

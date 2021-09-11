@@ -1,6 +1,8 @@
 
 <%- include('include/start.ejs')%>
 <%- include('include/nav1.ejs')%>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 <div style="display:block">
     <h1 style="margin-left: 1%;margin-top:2%">Recent Notifications</h1>
     <br><br>
@@ -16,6 +18,7 @@
     
 </div>
 <% if ((user.notif).length >0){%>
+    <%user.notif = user.notif.reverse()%>
     <% user.notif.forEach(notif=>{%>
         <%if (notif.type == "comment"){%>
             <p><%= notif.name %> commented on your blog <%=notif.blog %></p>
@@ -25,4 +28,12 @@
         <%}%>
     <%})%>
 <% }%>
+<script>
+    $.ajax({
+        url:"/get-notif-status",
+        method:"POST",
+        data:{flag:1}
+    })
+    $("#notif_div").html("No")
+</script>
 <%- include('include/end.ejs')%>

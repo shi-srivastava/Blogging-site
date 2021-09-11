@@ -32,12 +32,14 @@ const UserSchema = new Schema({
         type: Array
     },
     followers:{type:Array},
+    following:{type:Array},
     notif:[{
         type:{type:String},
         name:{type:String},
         blog:{type:String},
         date:{type:String, default: ""+d.getDate()+"-"+d.getMonth()+1+"-"+d.getFullYear()}
     }],
+    notif_status:{type:Number,default:0}
     
 })
 UserSchema.plugin(passportLocalMongoose);
