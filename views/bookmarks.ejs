@@ -6,6 +6,10 @@
     <h1 id="blog-title" style="text-align:center;margin-top:5%">
         Your bookmarked blogs
     </h1>
+    <% blog.forEach(blog=>{%>
+        <%if ((bookmark[0].bookmark).includes(blog._id)){%>
+            <a href="demoblog/<%= blog._id %>"><%= blog.title %></a>
+        <%}})%>
     <div class="dashboard_home_card-container">
 
         <div class="dashboard_home_card">

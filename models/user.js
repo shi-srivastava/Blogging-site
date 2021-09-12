@@ -33,6 +33,7 @@ const UserSchema = new Schema({
     },
     followers:{type:Array},
     following:{type:Array},
+    bookmark:{type:Array},
     notif:[{
         type:{type:String},
         name:{type:String},

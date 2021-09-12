@@ -7,8 +7,8 @@ const customId = require("custom-id")
 const mymodel = require("../models/blog")
 const usermodel = require("../models/user")
 const chat_model = require("../models/chat")
-const moment = require("moment")
-
+// const moment = require("moment")
+const nodemailer = require("nodemailer");
 const bodyParser = require("body-parser")
 app.use(bodyParser.urlencoded({extended:true}))
 let cur_user = ""
@@ -28,6 +28,25 @@ cur_user = req.cookies['email']
 await mymodel.find().sort({score:-1}).then(data=>{
     res.render("home",{name:cur_user,page_title:"Home",tag:"5 star",blogs:data})
 })
+
+})
+route.post("/bookmark",async(req,res)=>{
+    if(req.body.flag==0){
+        await usermodel.findOneAndUpdate({email:req.cookies['email']},{
+            $push:{
+                bookmark:req.body.blog
+            }
+        })
+        res.send("done")
+    }
+    if(req.body.flag==1){
+        await usermodel.findOneAndUpdate({email:req.cookies['email']},{
+            $pull:{
+                bookmark:req.body.blog
+            }
+        })
+        res.send("done")
+    }
 
 })
 route.get("/get-trending",async(req,res)=>{
@@ -149,9 +168,11 @@ route.get('/settings',(req,res,next) =>{
     
     res.render('settings.ejs',nav_send);
 })
-route.get('/bookmarks',(req,res,next) =>{
-    
-    res.render('bookmarks.ejs',nav_send);
+route.get('/bookmarks',async(req,res,next) =>{
+    let bookmark = await usermodel.find({email:req.cookies['email']})
+    let blog = await mymodel.find({})
+    res.render('bookmarks.ejs',{blog:blog,bookmark:bookmark,page_title:"Bookmarks"
+,name:req.cookies['email'],tag:"5 star"});
 })
 route.get('/your-pokis',async(req,res,next) =>{
     console.log("YOUR POKIS")
@@ -272,7 +293,7 @@ route.post("/search", async(req,res)=>{
 route.post("/search-on-homepage", async(req,res)=>{
     if((req.body.filter)=="blog"){
         // console.log("dfkjnlfnd")
-    await mymodel.find({title:{$regex:req.body.data}},{title:1}).then(data=>{
+    await mymodel.find({title:{$regex:req.body.data}}).then(data=>{
         res.send(data)
     })
 }
