@@ -94,7 +94,13 @@ route.get('/messages',async(req,res,next) =>{
     console.log("ent msgs")
    let user = await usermodel.find({email:req.cookies['email']})
    user = await usermodel.findById({_id:user[0]._id})
-    res.render('messages.ejs',{username:user.username,name:cur_user,tag:"5",page_title:"Chat"});
+    res.render('messages.ejs',{username:user.username,name:req.cookies['email'],nameforchat:user.username,tag:"5",page_title:"Chat"});
+})
+route.get('/msgs',async(req,res,next) =>{
+    console.log("ent msgs")
+   let user = await usermodel.find({email:req.cookies['email']})
+   user = await usermodel.findById({_id:user[0]._id})
+    res.render('testmsg.ejs',{username:user.username,name:user.username,tag:"5",page_title:"Chat"});
 })
 route.get('/notifications',async(req,res) =>{
     let user = await usermodel.find({email:req.cookies['email']})

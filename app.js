@@ -125,6 +125,7 @@ io.on("connection",(socket)=>{
         let d = new Date()
         let s = ""+d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear()
        socket.to(data.roomID).emit("express-chat",{data:data, t:s+" "+d.toLocaleTimeString()})
+       console.log("im here" + data)
      })
     //  socket.on('disconnect',()=>{
     //      console.log("disconnected")
