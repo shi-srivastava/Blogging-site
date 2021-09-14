@@ -2,17 +2,17 @@ const search =()=>{
     let search_div = document.getElementById("search")
     let search_item =""+ $("input[name='search_text']").val()
     let search_select =""+ $("select[name='search_select']").val()
-   
+  //  alert(search_item+" and "+search_select)
     $.ajax({
       url:"/search-on-homepage",
       method:"POST",
       data:{data:search_item,filter:search_select},
       success:function(response){
        if(response!=null){
-         if((search_select == "blog")){
+         if((search_select.includes("blog"))){
          response.forEach(res=>{
-           alert(res.title)
-           let anchor = document.getElementsByTagName('a')
+          //  alert(res.title)
+           let anchor = document.getElementsByClassName('search_results')
            let flag =0
            for(let i=0;i<anchor.length;i++){
              if(anchor[i].innerText == res.title){
@@ -23,7 +23,8 @@ const search =()=>{
               $(document.createElement('a')).prop({
                 target:'',
                 href:'/demoblog/'+res._id,
-                innerText: res.title
+                innerText: res.title,
+                class:"search_results"
               })
             ).append(
               $(document.createElement('br'))
@@ -45,7 +46,8 @@ const search =()=>{
              $(document.createElement('a')).prop({
                target:'',
                href:'/profile/'+res._id,
-               innerText: res.username
+               innerText: res.username,
+               class:"search_results"
              })
            ).append(
              $(document.createElement('br'))

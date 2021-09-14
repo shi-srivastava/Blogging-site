@@ -20,6 +20,12 @@
    <div style="text-align: center;">
    <%- blog.body %>
    </div>
+   <%if ((user.bookmark).includes(blog._id)){%>
+   <button id="<%= blog._id %>" onclick="bookmark(this)">Bookmarked</button>
+   <%}else{%>
+   <button id="<%= blog._id %>" onclick="bookmark(this)">Bookmark</button>
+
+    <%}%>
    <%if ((user.liked_blogs).includes(blog._id)){%>
    <button id="<%= blog._id %>" class="active" name="blog_like" onclick="blog_likes(this)" style="background-color: white; border: 0;">
     <i class="fa fa-thumbs-up" aria-hidden="true"></i>
@@ -139,6 +145,30 @@
    
        
    <script>
+    const bookmark =(btn)=>{
+    
+    if(btn.innerHTML == "Bookmarked"){
+        $.ajax({
+            url:"/bookmark",
+            method:"POST",
+            data:{blog:btn.id, flag:1},
+            success:function(res){
+                btn.innerHTML = "Bookmark"
+            }
+        })
+    }
+    if(btn.innerHTML == "Bookmark"){
+        $.ajax({
+            url:"/bookmark",
+            method:"POST",
+            data:{blog:btn.id,flag:0},
+            success:function(res){
+                btn.innerHTML = "Bookmarked"
+            }
+        })
+    }
+        
+    }
 const edit_blog =(btn)=>{
     alert(btn.id)
     window.location.href="/edit_post/"+btn.id
@@ -264,8 +294,7 @@ let flag=0
            }
        })
       }
-    const post_data = (form)=>{
-        
+    const post_data = (form)=>{    
         $.ajax({
             url: "/do-comment",
             data:{comment: form.comment.value,id:form.id.value,

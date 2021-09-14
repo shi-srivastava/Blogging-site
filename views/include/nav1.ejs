@@ -142,7 +142,7 @@
                 <div class="nav-bottom">
                     <div class="nav-list">
                         <a href="/notifications" class="nav-item">
-                            <div class="icon">
+                            <div class="icon" id="notif_div">
                                 <i class="material-icons">notifications</i>
                             </div>
                             <div class="text">
@@ -232,3 +232,26 @@
 
 
     <div class="content" id="move_when_expanded_content" style="margin-top:6%">
+  <script src="js/searchbar.js"></script>
+
+<script>
+    const get_notif =()=>{
+        $.ajax({
+            url:"/get-notif-status",
+            method:"POST",
+            data:{flag:0},
+            success:function(doc){
+                // alert(doc[0].notif_status)
+                if(doc[0].notif_status==1){
+                    $("#notif_div").html('YES')
+                }
+                if(doc[0].notif_status ==0){
+                    
+                    $("#notif_div").html('No')
+
+                }
+            }
+        })
+    }
+    setInterval(get_notif,3000)
+</script>

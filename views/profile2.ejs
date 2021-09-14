@@ -13,22 +13,40 @@
     <%if(userprofile != "nothing"){%>
         
         <input name="uid" type="text" value="<%= userprofile._id %>">
-        <button id="follow">Follow</button>
-      
+        <%if (me[0].following.includes(userprofile._id)){%>
+        <button id="follow">Following</button>
+        <%}else{%>
+            <button id="follow">Follow</button>
+        <%}%>
+    <%blog.forEach(blog=>{%>
+        <a href="demoblog/<%= blog._id %>"><%= blog.title %></a>
+    <%})%>
         <%}%>
 <script>
     let btn = document.getElementById("follow")
     btn.addEventListener("click",()=>{
-        
+        if(btn.innerHTML == "Follow"){
         $.ajax({
             url:"/follow",
             method:"POST",
             data:{uid:$("input[name='uid']").val()},
             success:function(res){
-                alert("followed")
+               btn.innerHTML="Following"
             }
         })
+    }
+    else{
+        $.ajax({
+            url:"/unfollow",
+            method:"POST",
+            data:{uid:$("input[name='uid']").val()},
+            success:function(res){
+               btn.innerHTML="Follow"
+            }
+        })
+    }
     })
+    
 </script>
 </body>
 </html>
