@@ -145,7 +145,17 @@ route.get('/messages',async(req,res,next) =>{
     console.log("ent msgs")
    let user = await usermodel.find({email:req.cookies['email']})
    user = await usermodel.findById({_id:user[0]._id})
+<<<<<<< HEAD
     res.render('messages.ejs',{username:user.username,name:req.cookies['email'],tag:"5",page_title:"Chat"});
+=======
+    res.render('messages.ejs',{username:user.username,name:req.cookies['email'],nameforchat:user.username,tag:"5",page_title:"Chat"});
+})
+route.get('/msgs',async(req,res,next) =>{
+    console.log("ent msgs")
+   let user = await usermodel.find({email:req.cookies['email']})
+   user = await usermodel.findById({_id:user[0]._id})
+    res.render('testmsg.ejs',{username:user.username,name:user.username,tag:"5",page_title:"Chat"});
+>>>>>>> e74ea236cd3173050939880e32c5890dfc95f73c
 })
 route.post("/get-notif-status",async(req,res)=>{
     let doc = await usermodel.find({email:req.cookies['email']})
