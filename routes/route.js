@@ -11,7 +11,7 @@ const chat_model = require("../models/chat")
 const nodemailer = require("nodemailer");
 const bodyParser = require("body-parser")
 app.use(bodyParser.urlencoded({extended:true}))
-let cur_user = ""
+
 //need to change nav_send name to something else, as 'name' key is passed in demoblog as
 //well
 
@@ -24,9 +24,9 @@ route.get('/login',isLoggedIn,(req,res,next)=>{
 
 route.get('/home',isLoggedIn, async(req,res,next) =>{
 
-cur_user = req.cookies['email']
+
 await mymodel.find().sort({score:-1}).then(data=>{
-    res.render("home",{name:cur_user,page_title:"Home",tag:"5 star",blogs:data})
+    res.render("home",{name:req.cookies['email'],page_title:"Home",tag:"5 star",blogs:data})
 })
 
 })
@@ -51,6 +51,7 @@ route.post("/bookmark",async(req,res)=>{
 })
 route.get("/get-trending",async(req,res)=>{
     await mymodel.find().sort({score:-1}).then(data=>{
+        
         res.send(data)
     })
 })
@@ -121,7 +122,7 @@ route.get('/profile',async(req,res,next) =>{
         let user = await usermodel.find({email:req.cookies['email']})
         user = await usermodel.findById({_id:user[0]._id})
     let doc = await mymodel.find({email:req.cookies['email'],is_draft:"n"})
-res.render('profile',{blog:doc,name:cur_user,tag:"5 star",
+res.render('profile',{blog:doc,name:req.cookies['email'],tag:"5 star",
 page_title:"profile",user:user,userprofile:"nothing"});
     }
     catch(error){
@@ -144,7 +145,7 @@ route.get('/messages',async(req,res,next) =>{
     console.log("ent msgs")
    let user = await usermodel.find({email:req.cookies['email']})
    user = await usermodel.findById({_id:user[0]._id})
-    res.render('messages.ejs',{username:user.username,name:cur_user,tag:"5",page_title:"Chat"});
+    res.render('messages.ejs',{username:user.username,name:req.cookies['email'],tag:"5",page_title:"Chat"});
 })
 route.post("/get-notif-status",async(req,res)=>{
     let doc = await usermodel.find({email:req.cookies['email']})
@@ -176,13 +177,15 @@ route.get('/bookmarks',async(req,res,next) =>{
 })
 route.get('/your-pokis',async(req,res,next) =>{
     console.log("YOUR POKIS")
-    let doc = await mymodel.find({email:cur_user, is_draft:"y"})
+    let doc = await mymodel.find({email:req.cookies['email'], is_draft:"y"})
 
-    res.render('your-pokis.ejs',{blog:doc,name:cur_user,tag:"jnln",page_title:"pokis"});
+    res.render('your-pokis.ejs',{blog:doc,name:req.cookies['email'],tag:"jnln",page_title:"pokis"});
 })
-route.get('/trending',(req,res,next) =>{
-    
-    res.render('trending.ejs',nav_send);
+route.get('/trending',async(req,res) =>{
+    await mymodel.find({}).sort({score:-1}).then(data=>{
+    res.render('trending2',{blogs:data,name:req.cookies['email'],tag:"5",page_title:"trending"});
+
+    })
 })
 route.get('/your-projects',(req,res,next) =>{
     
@@ -195,7 +198,7 @@ route.get('/your-projects',(req,res,next) =>{
 //     nav_send_home.page_title="DEMOBlogDisplay";
 //     // let uid = await usermodel.find({email:req.params.name}) 
 //     let user = await usermodel.findById({_id:"6109179f640e3939902b5f3d"})
-//     res.render("demoblog",{blog:doc,user:user,name:cur_user,tag:"jnln",page_title:"demo"})
+//     res.render("demoblog",{blog:doc,user:user,name:req.cookies['email'],tag:"jnln",page_title:"demo"})
 // })
 route.get('/your-pokis-created',(req,res,next) =>{
     
